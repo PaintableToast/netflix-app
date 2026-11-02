@@ -2802,3 +2802,42 @@ html.layout-tv body #slides-container .logo-container {
   width: 27vw !important;
   height: 10vh !important;
 }
+
+/* Final MediaBar overrides: apply equally to classic, plate and marquee. */
+html.layout-tv body #slides-container#slides-container {
+  height: 52vh !important;
+  max-height: 52vh !important;
+}
+html.layout-tv body #slides-container#slides-container :is(.ss-chrome,.ss-settings-toggle,.pause-button,.volume-toggle,.spec-cert,.age-rating,.mediaInfoOfficialRating) {
+  display: none !important;
+}
+html.layout-tv body #slides-container#slides-container .spec-line {
+  position: absolute !important;
+  inset: auto auto 2em 3vw !important;
+  max-width: 70vw !important;
+  font: 600 .95em/1.4 Arial,sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  z-index: 5 !important;
+}
+html.layout-tv body #slides-container#slides-container .play-button::before,
+html.layout-tv body #slides-container#slides-container .play-button::after {
+  content: none !important;
+  display: none !important;
+}
+html.layout-tv body #slides-container#slides-container:focus {
+  outline: 2px solid #fff !important;
+  outline-offset: 3px !important;
+}
+html.layout-tv body #slides-container#slides-container:focus .play-button {
+  border-color: transparent !important;
+}
+/* Series has the same reduced tabs and toolbar as the movie library. */
+html.layout-tv body:has(#tvRecommendedPage:not(.hide)) .headerTabs .emby-tab-button:not([data-index="1"]):not([data-index="3"]) {
+  display: none !important;
+}
+html.layout-tv body:has(#tvRecommendedPage:not(.hide)) .headerTabs .emby-tab-button[data-index="3"] { order: -1 !important; }
+html.layout-tv body #tvRecommendedPage #seriesTab > .focuscontainer-x,
+html.layout-tv body #tvRecommendedPage #seriesTab > .alphaPicker {
+  display: none !important;
+}

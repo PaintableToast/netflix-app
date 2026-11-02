@@ -27,3 +27,16 @@ Work in progress. Browser layout and TV firmware can differ. Playback transparen
 Browser verification: the registered native component was found, and a temporary test checkbox toggled on/off with two Enter key events and exactly two change events. Physical TV OK behavior still needs validation. This script currently runs only in the browser tab where loaded; CSS does not install it. Persistent use requires an authorized script integration in the client or server. Do not run the older request key handler alongside it.
 
 Native handler source: https://github.com/jellyfin/jellyfin-web/blob/master/src/elements/emby-checkbox/emby-checkbox.js
+
+## Preview navigation and current CSS
+
+The full `netflix-tv.css` now hides preview age badges (FSK), pause, volume and slideshow-settings controls. The series library exposes Genres and Suggestions only; the library's default landing tab is a separate Jellyfin user preference, not set by CSS.
+
+`netflix-tv-slideshow.user.js` is an optional userscript for the configured Jellyfin site. When installed in a userscript manager (or loaded through an authorized client/server script integration), it:
+
+- Gives the home preview initial focus after page load, unless the user has already interacted.
+- Routes Left/Right to MediaBar's existing previous/next click actions, avoiding its hidden detail/favorite button siblings.
+- Leaves Enter playback to MediaBar's own handler and Up/Down to Jellyfin navigation.
+- Removes hidden slideshow controls from the tab order.
+
+Paste only the CSS into the Display page. A CSS field does not run the userscript. Executing it in a console is temporary; automatic operation after reload requires installing a script loader. No persistent browser installation has been completed. Syntax checked; live navigation verification remains pending because computer-use screen capture failed during setup. Remove a running copy with `window.netflixTvSlideshow.remove()`.
