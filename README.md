@@ -19,3 +19,11 @@ CSS can style native checkboxes and improve layout geometry, but cannot assign n
 ## Status
 
 Work in progress. Browser layout and TV firmware can differ. Playback transparency must be preserved. No server credentials or user configuration are included.
+
+## Native checkbox integration
+
+`jellyfin-native-season-checkboxes.js` reuses the existing Jellyfin `emby-checkbox` component's lifecycle to attach its Enter handler to the original season inputs. It preserves existing input references and change listeners, and does not submit requests. The adapter checks that the component is available before changing inputs and can be removed using `window.jellyfinNativeSeasonCheckboxes.remove()`.
+
+Browser verification: the registered native component was found, and a temporary test checkbox toggled on/off with two Enter key events and exactly two change events. Physical TV OK behavior still needs validation. This script currently runs only in the browser tab where loaded; CSS does not install it. Persistent use requires an authorized script integration in the client or server. Do not run the older request key handler alongside it.
+
+Native handler source: https://github.com/jellyfin/jellyfin-web/blob/master/src/elements/emby-checkbox/emby-checkbox.js
