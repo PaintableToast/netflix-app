@@ -2621,3 +2621,136 @@ html.layout-tv body .jellyseerr-section > h2.sectionTitle > .jellyseerr-refresh-
 html.layout-tv body .jellyseerr-section > h2.sectionTitle .jellyseerr-refresh-icon {
   font-size: 1em !important;
 }
+
+/* MediaBar TV preview: contained artwork, compact lower-left metadata.
+ * Keep only the active slide focusable; the play target covers the preview. */
+html.layout-tv body #slides-container {
+  top: 6.4em !important;
+  left: 4.5vw !important;
+  right: 4.5vw !important;
+  width: 91vw !important;
+  height: 64vh !important;
+  border-radius: 1.1em !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  background: #141414 !important;
+}
+html.layout-tv body #slides-container .slide:not(.active) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container .slide.active { display: block !important; visibility: visible !important; }
+html.layout-tv body #slides-container .backdrop-container,
+html.layout-tv body #slides-container .gradient-overlay {
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+html.layout-tv body #slides-container .backdrop {
+  opacity: 1 !important;
+  filter: none !important;
+  object-fit: cover !important;
+  object-position: 70% center !important;
+  border-radius: 0 !important;
+}
+html.layout-tv body #slides-container .gradient-overlay {
+  background: linear-gradient(90deg,#141414 0%,rgba(20,20,20,.92) 22%,rgba(20,20,20,.28) 58%,transparent 82%),linear-gradient(0deg,#141414 0%,rgba(20,20,20,.6) 14%,transparent 50%) !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container .slide-content {
+  position: static !important;
+  width: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+html.layout-tv body #slides-container .logo-container {
+  position: absolute !important;
+  left: 3vw !important;
+  bottom: 5.6em !important;
+  width: 34vw !important;
+  height: 12vh !important;
+  margin: 0 !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container .logo {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  filter: none !important;
+  object-fit: contain !important;
+  object-position: left bottom !important;
+}
+html.layout-tv body #slides-container .info-container {
+  position: absolute !important;
+  left: 3vw !important;
+  bottom: 3.1em !important;
+  z-index: 5 !important;
+  max-width: 60vw !important;
+  font: 600 .95em/1.4 Arial,sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container .misc-info,
+html.layout-tv body #slides-container .runTime {
+  font-family: Arial,sans-serif !important;
+  font-size: inherit !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border: 0 !important;
+}
+html.layout-tv body #slides-container .genre {
+  position: absolute !important;
+  left: 3vw !important;
+  bottom: 1.4em !important;
+  z-index: 5 !important;
+  font: 500 .9em/1.4 Arial,sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container :is(.plot-container,.poster-container,.tagline,.spec-rail,.plate,.plate-specs,.plate-eyebrow,.featured-content,.dots-container,.arrow,.video-container,.local-trailer,.detail-button,.favorite-button,.ss-settings-button),
+html.layout-tv body #slides-container .star-rating-container,
+html.layout-tv body #slides-container .critic-rating {
+  display: none !important;
+}
+html.layout-tv body #slides-container .info-container::before,
+html.layout-tv body #slides-container .info-container::after { content: none !important; }
+html.layout-tv body #slides-container .button-container {
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+html.layout-tv body #slides-container .play-button {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  background: transparent !important;
+  border: .18em solid transparent !important;
+  border-radius: 1.1em !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  outline: none !important;
+  z-index: 6 !important;
+}
+html.layout-tv body #slides-container .play-button > * { visibility: hidden !important; }
+html.layout-tv body #slides-container .play-button:focus {
+  border-color: #fff !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body:has(#slides-container) #homePage .homeSectionsContainer {
+  margin-top: calc(64vh + 1.5em) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.layout-tv body #slides-container .slide { transition: none !important; }
+}
