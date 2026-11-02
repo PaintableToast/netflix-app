@@ -2742,7 +2742,7 @@ html.layout-tv body #slides-container .play-button:focus {
   outline: none !important;
   box-shadow: none !important;
 }
-html.layout-tv body:has(#slides-container) #homePage .homeSectionsContainer {
+html.layout-tv body:has(#slides-container) .homeSectionsContainer {
   margin-top: calc(52vh + 7.9em) !important;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3034,13 +3034,21 @@ html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Se
 /* MediaBar is attached to body, outside the scrolling home rows. Hide its
  * independent layer while a library card owns TV focus, preventing overlap
  * as native spatial navigation scrolls the home view underneath it. */
-html.layout-tv body:has(#homePage .card:focus) #slides-container#slides-container,
-html.layout-tv body:has(#homePage .card:focus-within) #slides-container#slides-container {
+html.layout-tv body:has(.homeSectionsContainer .card:focus) #slides-container#slides-container,
+html.layout-tv body:has(.homeSectionsContainer .card:focus-within) #slides-container#slides-container {
   visibility: hidden !important;
   pointer-events: none !important;
 }
-html.layout-tv body:has(#homePage .card:focus) #slides-container#slides-container *,
-html.layout-tv body:has(#homePage .card:focus-within) #slides-container#slides-container * {
+html.layout-tv body:has(.homeSectionsContainer .card:focus) #slides-container#slides-container *,
+html.layout-tv body:has(.homeSectionsContainer .card:focus-within) #slides-container#slides-container * {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Native TV clients can mark the card with show-focus rather than keeping
+ * DOM focus on the outer card. Cover both forms without a page-ID assumption. */
+html.layout-tv body:has(.homeSectionsContainer .card.show-focus) #slides-container#slides-container,
+html.layout-tv body:has(.homeSectionsContainer .card.show-focus) #slides-container#slides-container * {
   visibility: hidden !important;
   pointer-events: none !important;
 }
