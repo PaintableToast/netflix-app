@@ -3045,10 +3045,12 @@ html.layout-tv body:has(.homeSectionsContainer .card:focus-within) #slides-conta
   pointer-events: none !important;
 }
 
-/* Native TV clients can mark the card with show-focus rather than keeping
- * DOM focus on the outer card. Cover both forms without a page-ID assumption. */
-html.layout-tv body:has(.homeSectionsContainer .card.show-focus) #slides-container#slides-container,
-html.layout-tv body:has(.homeSectionsContainer .card.show-focus) #slides-container#slides-container * {
-  visibility: hidden !important;
-  pointer-events: none !important;
+
+
+/* When the remote enters home rows, remove the slideshow's reserved space
+ * together with its visual layer so no empty hero-sized gap remains. */
+html.layout-tv body:has(.homeSectionsContainer .card:focus) .homeSectionsContainer,
+html.layout-tv body:has(.homeSectionsContainer .card:focus-within) .homeSectionsContainer {
+  margin-top: 1.5em !important;
+  padding-top: 0 !important;
 }
