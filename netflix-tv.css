@@ -2981,3 +2981,43 @@ html.layout-tv body .jellyseerr-season-modal .jellyseerr-advanced-options .jelly
   display: flex !important;
   visibility: visible !important;
 }
+
+/* Compact, left-aligned season actions; retain the full native click target. */
+html.layout-tv body #itemDetailPage #listChildrenCollapsible:has(.card[data-type="Season"]) .itemsContainer {
+  gap: .55em !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] {
+  min-height: 2.65em !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardBox {
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  min-height: 2.65em !important;
+  padding: .55em .85em !important;
+  border: 2px solid transparent !important;
+  border-radius: .3em !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: #242424 !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] :is(.cardScalable,.cardImageContainer) {
+  min-height: 0 !important;
+  outline: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardText {
+  text-align: left !important;
+  font-size: .95em !important;
+  font-weight: 600 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:is(:focus,:focus-within) .cardBox {
+  background: #fff !important;
+  border-color: #fff !important;
+  outline: none !important;
+}
