@@ -3042,3 +3042,17 @@ html.layout-tv body:has(#slides-container) .homeSectionsContainer {
   padding-top: 0 !important;
   margin-top: calc(52vh + 7.9em) !important;
 }
+
+/* User preference: disable the MediaBar slideshow and its reserved space. */
+html body #slides-container#slides-container {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  pointer-events: none !important;
+}
+html body:has(#slides-container) .homeSectionsContainer,
+html.layout-tv body:has(#slides-container) .homeSectionsContainer {
+  margin-top: 0 !important;
+  padding-top: 1em !important;
+}
