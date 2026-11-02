@@ -1,0 +1,50 @@
+
+/* Request form: quality only; keep default server/folder values intact. */
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-server"]),
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-row:has(select[id$="-folder"]),
+html.layout-tv body .jellyseerr-advanced-options > h3 {
+  display: none !important;
+}
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-quality"]) {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+/* Restore a single page scroll surface for native spatial navigation. */
+html.layout-tv body .searchFields {
+  position: relative !important;
+  top: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+html.layout-tv body :is(.searchResults,.searchSuggestions) {
+  margin-left: 27vw !important;
+}
+
+/* Square season checkboxes instead of switch tracks. */
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox {
+  appearance: none !important; -webkit-appearance: none !important;
+  width: 1.35em !important; height: 1.35em !important; min-width: 1.35em !important;
+  flex: 0 0 1.35em !important; border: 2px solid #aaa !important;
+  border-radius: .15em !important; background: #202020 !important;
+  position: relative !important; box-sizing: border-box !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox::before {
+  content: none !important; transform: none !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:checked {
+  background: #fff !important; border-color: #fff !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:checked::after {
+  content: '' !important; position: absolute !important;
+  left: 32% !important; top: 12% !important; width: 25% !important; height: 50% !important;
+  border: solid #111 !important; border-width: 0 3px 3px 0 !important;
+  transform: rotate(45deg) !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:focus {
+  outline: 3px solid #fff !important; outline-offset: 5px !important;
+}
+html.layout-tv body .jellyseerr-season-item:focus-within,
+html.layout-tv body .jellyseerr-season-header-row:focus-within {
+  background: #292929 !important; box-shadow: inset 0 0 0 2px #fff !important;
+}

@@ -1,0 +1,2550 @@
+/* Netflix TV Reference Experience for Jellyfin 12 (VIDAA 9 & Desktop Browser TV Mode)
+ * Matched against real Netflix TV photos (IMG_3633..IMG_3666).
+ * Preserves hardware video transparency (.backgroundContainer / #videoOsdPage) and spatial remote navigation.
+ */
+html.layout-tv {
+  scroll-padding-top: 6.4em !important;
+  background-color: #000;
+}
+
+.layout-tv {
+  --nf-bg: #000;
+  --nf-surface: #181818;
+  --nf-panel: #222;
+  --nf-pill: rgba(255, 255, 255, 0.14);
+  --nf-muted: #b8b8b8;
+  --nf-red: #e50914;
+  --jf-palette-primary-main: #e50914;
+  --jf-palette-secondary-main: #fff;
+  --jf-palette-text-primary: #fff;
+  --jf-palette-text-secondary: #b8b8b8;
+  --jf-card-borderRadius: 8px;
+}
+
+/* 1. Page backgrounds: keep .backgroundContainer & #videoOsdPage untouched for VIDAA hardware video plane */
+.layout-tv #indexPage,
+.layout-tv #moviesPage,
+.layout-tv #tvShowsPage,
+.layout-tv #listPage,
+.layout-tv .libraryPage:not(#videoOsdPage):not(#itemDetailPage),
+.layout-tv #searchPage,
+.layout-tv .searchPage,
+.layout-tv #myPreferencesMenuPage,
+.layout-tv #displayPreferencesPage,
+.layout-tv #homeScreenPreferencesPage,
+.layout-tv #playbackConfigurationPage,
+.layout-tv #subtitlePreferencesPage,
+.layout-tv .mainDrawer {
+  background-color: #000 !important;
+  min-height: 100vh !important;
+}
+
+/* Hide global backdrop bleed on Home, Library & Search so the background stays pure #000 like Netflix TV */
+.layout-tv:has(#indexPage:not(.hide)) .backdropContainer,
+.layout-tv:has(#moviesPage:not(.hide)) .backdropContainer,
+.layout-tv:has(#tvShowsPage:not(.hide)) .backdropContainer,
+.layout-tv:has(#listPage:not(.hide)) .backdropContainer,
+.layout-tv:has(#searchPage:not(.hide)) .backdropContainer {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.layout-tv body,
+.layout-tv button,
+.layout-tv input,
+.layout-tv select,
+.layout-tv textarea {
+  font-family: "Netflix Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Top Navigation Bar (matched to IMG_3633, IMG_3639, IMG_3641)
+ * Left: Profile avatar (and Back/Home/Search buttons neatly grouped on subpages without tabs)
+ * Center: Search icon immediately adjacent to Pill tabs (Startseite, Favoriten, Anfragen)
+ * Right: Netflix 'N' ribbon
+ */
+.layout-tv .skinHeader {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 5.2em !important;
+  min-height: 5.2em !important;
+  z-index: 1000 !important;
+  overflow: visible !important;
+  contain: none !important;
+  background: linear-gradient(180deg, #000 0%, #000 86%, rgba(0, 0, 0, 0) 100%) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.layout-tv .skinHeader.headroom--unpinned {
+  transform: none !important;
+}
+
+/* Persistent Netflix N ribbon on the right across all views */
+.layout-tv .skinHeader::after {
+  content: "";
+  position: absolute;
+  right: 4.5vw;
+  top: 1.15em;
+  width: 1.55em;
+  height: 2.5em;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20164%22%3E%3Cpath%20fill%3D%22%23b1060f%22%20d%3D%22M0%200h29v160L0%20164zM71%200h29v164l-29-4z%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23e50914%22%20d%3D%22M0%200h29l71%20164-29-4z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* On Video Player OSD (#videoOsdPage), keep header transparent (no black bar!) and hide when inactive */
+.layout-tv:has(#videoOsdPage:not(.hide)) .skinHeader {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0) 100%) !important;
+  height: 4.4em !important;
+  min-height: 4.4em !important;
+}
+
+.layout-tv:has(#videoOsdPage:not(.hide)) .skinHeader.osdHeader-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.layout-tv:has(#videoOsdPage:not(.hide)) .skinHeader::after {
+  display: none !important;
+}
+
+.layout-tv .headerTop {
+  position: relative !important;
+  height: 5.2em !important;
+  min-height: 5.2em !important;
+  padding: 0 4.5vw !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.layout-tv .headerLeft,
+.layout-tv .headerRight {
+  overflow: visible !important;
+}
+
+/* Hide redundant header title & default logo since .skinHeader::after provides the Netflix N */
+.layout-tv .pageTitle,
+.layout-tv .pageTitleWithLogo,
+.layout-tv .pageTitleWithDefaultLogo,
+.layout-tv .noHomeButtonHeader .headerHomeButton,
+.layout-tv .currentTimeText,
+.layout-tv .headerClock,
+.layout-tv .headerSyncButton,
+.layout-tv .headerSyncPlayButton,
+.layout-tv .headerCastButton,
+.layout-tv .btnCast,
+.layout-tv .btnSyncPlay,
+.layout-tv .je-header-launcher,
+.layout-tv .je-header-buttons-tray {
+  display: none !important;
+}
+
+.layout-tv .headerButton {
+  width: 2.45em !important;
+  height: 2.45em !important;
+  box-sizing: border-box !important;
+  padding: 0.45em !important;
+  margin: 0 !important;
+  color: #e5e5e5 !important;
+  border-radius: 999px !important;
+  border: 2px solid transparent !important;
+  transform: none !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out !important;
+}
+
+/* Profile icon on the far left like Netflix TV avatar */
+.layout-tv .headerUserButton {
+  position: absolute !important;
+  left: 4.5vw !important;
+  top: 1.25em !important;
+  width: 2.15em !important;
+  height: 2.15em !important;
+  padding: 0.3em !important;
+  border-radius: 6px !important;
+  background: #1b6ef3 !important;
+  color: #fff !important;
+}
+
+/* Subpage Back & Home buttons neatly next to Profile when active */
+.layout-tv .headerBackButton {
+  position: absolute !important;
+  left: 8.2vw !important;
+  top: 1.12em !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.layout-tv .headerHomeButton {
+  position: absolute !important;
+  left: 11.6vw !important;
+  top: 1.12em !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Search icon placed immediately to the left of Startseite tab when tabs are shown */
+.layout-tv .headerSearchButton {
+  position: absolute !important;
+  left: 34.8vw !important;
+  right: auto !important;
+  top: 1.12em !important;
+}
+
+/* On subpages without header tabs (Detail pages, Sammlungen, etc.), group Search icon neatly next to Home button on the left! */
+.layout-tv .skinHeader:has(.sectionTabs.hide) .headerSearchButton,
+.layout-tv .skinHeader:not(:has(.sectionTabs:not(.hide))) .headerSearchButton {
+  left: 15vw !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.layout-tv .headerButton:focus {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+  outline: none !important;
+}
+
+/* Centered Netflix TV pill navigation bar anchored right next to Search icon */
+.layout-tv .headerTabs.sectionTabs {
+  position: absolute !important;
+  top: 1.05em !important;
+  left: 38.2vw !important;
+  right: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 3em !important;
+  margin: 0 !important;
+  font-size: 1em !important;
+  align-self: auto !important;
+  justify-content: flex-start !important;
+}
+
+.layout-tv .headerTabs .emby-tabs-slider {
+  margin: 0 !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.layout-tv .emby-tab-button,
+.layout-tv .emby-tab-button:focus {
+  min-height: 2.45em !important;
+  padding: 0.42em 1.15em !important;
+  margin: 0 0.2em !important;
+  border: 2px solid transparent !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #d6d6d6 !important;
+  font-size: 1.02em !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv .emby-tab-button-active {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #fff !important;
+}
+
+.layout-tv .emby-tab-button:focus {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+  outline: none !important;
+}
+
+.layout-tv .emby-tab-button .emby-button-foreground {
+  font: inherit !important;
+  color: inherit !important;
+  transform: none !important;
+}
+
+/* Reserve top header space so rows are never clipped under the fixed header */
+.layout-tv .libraryPage:not(#videoOsdPage) {
+  padding-top: 6em !important;
+}
+
+.layout-tv .absolutePageTabContent {
+  top: 6em !important;
+}
+
+/* Hide library grid clutter: vertical right-edge A-Z strip, "1-14 von 14 Sortieren Filter ⋮" bar, and red count/watched circles */
+.layout-tv .alphaPicker:not(.searchFields .alphaPicker),
+.layout-tv .alphaPicker-vertical,
+.layout-tv .alphaPicker-fixed,
+.layout-tv .listTopPaging,
+.layout-tv .viewSettings,
+.layout-tv .btnSelectView,
+.layout-tv .countIndicator,
+.layout-tv .playedIndicator,
+.layout-tv .mediaSourceIndicator,
+.layout-tv .fullSyncIndicator {
+  display: none !important;
+}
+
+/* 3. Home Screen, Library Views & Dynamic Netflix TV Row Cards (matched to IMG_3633, IMG_3641, IMG_3642, IMG_3643)
+ * Focused card has a crisp WHITE (#fff) border around the artwork only (never red!)
+ * and left-aligned title + subtitle underneath. Unfocused cards are clean tiles without text clutter.
+ */
+.layout-tv .homePage .padded-left,
+.layout-tv .libraryPage:not(#videoOsdPage):not(#itemDetailPage) .padded-left {
+  padding-left: 4.5vw !important;
+}
+
+.layout-tv .libraryPage:not(#videoOsdPage):not(#itemDetailPage) .itemsContainer.vertical-wrap {
+  padding-left: 4.5vw !important;
+  padding-right: 4.5vw !important;
+  justify-content: flex-start !important;
+}
+
+.layout-tv .homePage .sectionTitleContainer > .sectionTitle,
+.layout-tv .libraryPage .sectionTitleContainer > .sectionTitle {
+  padding-left: 0 !important;
+}
+
+.layout-tv .homePage .sectionTitle,
+.layout-tv .libraryPage .sectionTitle {
+  color: #f5f5f5 !important;
+  font-size: 1.28em !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0.2em !important;
+}
+
+.layout-tv .homePage .verticalSection,
+.layout-tv .libraryPage .verticalSection {
+  margin-bottom: 1.15em !important;
+}
+
+/* Remove Jellyfin's default box border/outline around .cardBox (which previously wrapped the text below!) */
+.layout-tv .card:focus,
+.layout-tv .card .cardBox,
+.layout-tv .card:focus .cardBox,
+.layout-tv .card.show-animation:focus > .cardBox,
+.layout-tv .card.show-focus:not(.show-animation) .cardBox.visualCardBox {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transform: none !important;
+}
+
+/* Crisp WHITE (#fff) focus border ONLY around the artwork (.cardScalable) across ALL pages! */
+.layout-tv .card .cardScalable {
+  border: 3px solid transparent !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background-color: #181818 !important;
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out !important;
+}
+
+.layout-tv .card .cardImageContainer,
+.layout-tv .card .cardContent,
+.layout-tv .card .cardOverlayContainer {
+  border-radius: 5px !important;
+}
+
+.layout-tv .card:focus .cardScalable,
+.layout-tv .card:focus .cardBox.visualCardBox,
+.layout-tv .card:focus .cardBox:not(.visualCardBox) .cardScalable,
+.layout-tv .card.show-focus:not(.show-animation):focus .cardBox:not(.visualCardBox) .cardScalable,
+html body .card:focus .cardScalable,
+html body .card:focus .cardBox:not(.visualCardBox) .cardScalable {
+  border-color: #fff !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* Dynamic horizontal expansion on Home & Library horizontal media rows (Resume, NextUp, LatestMedia) */
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card,
+.layout-tv #moviesPage .verticalSection:not(.MyMedia) .card,
+.layout-tv #tvShowsPage .verticalSection:not(.MyMedia) .card {
+  width: 16.2vw !important;
+  flex-shrink: 0 !important;
+  transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card:focus,
+.layout-tv #moviesPage .verticalSection:not(.MyMedia) .card:focus,
+.layout-tv #tvShowsPage .verticalSection:not(.MyMedia) .card:focus {
+  width: 36vw !important;
+}
+
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card .cardBox,
+.layout-tv #moviesPage .verticalSection:not(.MyMedia) .card .cardBox,
+.layout-tv #tvShowsPage .verticalSection:not(.MyMedia) .card .cardBox {
+  margin: 0.25em 0.38em !important;
+}
+
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card .cardPadder,
+.layout-tv #moviesPage .verticalSection:not(.MyMedia) .card .cardPadder,
+.layout-tv #tvShowsPage .verticalSection:not(.MyMedia) .card .cardPadder {
+  display: none !important;
+}
+
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card .cardScalable,
+.layout-tv #moviesPage .verticalSection:not(.MyMedia) .card .cardScalable,
+.layout-tv #tvShowsPage .verticalSection:not(.MyMedia) .card .cardScalable {
+  height: 20.2vw !important;
+  aspect-ratio: auto !important;
+}
+
+/* Show title & episode metadata ONLY under the focused card, left-aligned like Netflix TV */
+.layout-tv .card:not(.jellyseerr-card) .cardText {
+  text-align: left !important;
+  padding-left: 0.15em !important;
+  padding-right: 0.15em !important;
+  transition: opacity 150ms ease-out !important;
+}
+
+.layout-tv .card:not(.jellyseerr-card) .cardText-first {
+  color: #fff !important;
+  font-size: 1.02em !important;
+  font-weight: 700 !important;
+  padding-top: 0.4em !important;
+  line-height: 1.25 !important;
+}
+
+.layout-tv .card:not(.jellyseerr-card) .cardText-secondary {
+  color: #bdbdbd !important;
+  font-size: 0.9em !important;
+  font-weight: 500 !important;
+  line-height: 1.25 !important;
+}
+
+.layout-tv .homePage .verticalSection:not(.MyMedia) .card:not(:focus) .cardText,
+.layout-tv .libraryPage:not(#itemDetailPage) .card:not(.jellyseerr-card):not(:focus) .cardText {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* My Media library category row: sleek landscape tiles */
+.layout-tv .homePage .verticalSection.MyMedia .overflowBackdropCard,
+.layout-tv .homePage .verticalSection.MyMedia .overflowSmallBackdropCard {
+  width: 21.5vw !important;
+}
+
+.layout-tv .homePage .verticalSection.MyMedia .card .cardBox {
+  margin: 0.25em 0.38em !important;
+}
+
+/* Netflix-red bottom progress bar on cards */
+.layout-tv .innerCardFooter.fullInnerCardFooter {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.layout-tv .itemProgressBar {
+  height: 5px !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+}
+
+.layout-tv .itemProgressBarForeground {
+  background-color: #e50914 !important;
+}
+
+/* 4. Detail Page (matched to IMG_3634..IMG_3637 and IMG_3662..IMG_3666)
+ * Right 65%: Always shows the preview/backdrop artwork fading into #000 on left and bottom (even when enableBackdrops is off!)
+ * Left column: Large Title, Metadata row, Synopsis, Vertical pill action buttons + "Staffeln und Folgen" button
+ */
+.layout-tv:has(#itemDetailPage:not(.hide)) .backdropContainer {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  left: 22vw !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 86vh !important;
+}
+
+.layout-tv:has(#itemDetailPage:not(.hide)) .backdropImage {
+  filter: brightness(0.96) contrast(1.04) !important;
+  opacity: 1 !important;
+}
+
+.layout-tv #itemDetailPage {
+  background:
+    linear-gradient(90deg, #000 0%, #000 33%, rgba(0, 0, 0, 0.72) 52%, rgba(0, 0, 0, 0.08) 78%, rgba(0, 0, 0, 0.22) 100%),
+    linear-gradient(0deg, #000 0%, #000 22%, rgba(0, 0, 0, 0) 66%) !important;
+  min-height: 100vh !important;
+}
+
+.layout-tv #itemDetailPage .detailPageWrapperContainer,
+.layout-tv #itemDetailPage .detailPagePrimaryContainer,
+.layout-tv #itemDetailPage .detailRibbon,
+.layout-tv #itemDetailPage .detailPageSecondaryContainer {
+  background: transparent !important;
+}
+
+.layout-tv #itemDetailPage .detailLogo,
+.layout-tv #itemDetailPage #itemBackdrop {
+  display: none !important;
+}
+
+/* Right-side Preview Image (.detailImageContainer): guarantees a crisp Netflix preview image on the right 65%
+ * even when Jellyfin's global enableBackdrops setting is disabled or when viewing an Episode!
+ */
+.layout-tv #itemDetailPage .detailImageContainer {
+  display: block !important;
+  position: fixed !important;
+  top: 5.2em !important;
+  right: 0 !important;
+  left: 30vw !important;
+  width: 70vw !important;
+  height: 82vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 4%, rgba(0, 0, 0, 0.25) 18%, rgba(0, 0, 0, 0.75) 36%, #000 54%);
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 4%, rgba(0, 0, 0, 0.25) 18%, rgba(0, 0, 0, 0.75) 36%, #000 54%);
+}
+
+/* Smooth Netflix fade-to-black vignette over the left, top, and bottom edges of .detailImageContainer */
+.layout-tv #itemDetailPage .detailImageContainer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #000 0%, #000 6%, rgba(0, 0, 0, 0.78) 24%, rgba(0, 0, 0, 0.14) 50%, rgba(0, 0, 0, 0.25) 100%),
+    linear-gradient(0deg, #000 0%, rgba(0, 0, 0, 0.85) 16%, rgba(0, 0, 0, 0) 52%),
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 18%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.layout-tv #itemDetailPage .detailImageContainer .card,
+.layout-tv #itemDetailPage .detailImageContainer .cardBox,
+.layout-tv #itemDetailPage .detailImageContainer .cardScalable,
+.layout-tv #itemDetailPage .detailImageContainer .cardImageContainer {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  background-size: cover !important;
+  background-position: center 20% !important;
+  contain: none !important;
+}
+
+.layout-tv #itemDetailPage .detailImageContainer .cardPadder,
+.layout-tv #itemDetailPage .detailImageContainer .cardIndicators,
+.layout-tv #itemDetailPage .detailImageContainer .cardOverlayContainer {
+  display: none !important;
+}
+
+/* When global .backdropContainer already has an active backdrop image on Series/Movie pages, avoid double-stacking */
+.layout-tv:has(.backdropContainer.withBackdrop) #itemDetailPage:not(:has(a[data-type="Season"])) .detailImageContainer {
+  opacity: 0 !important;
+}
+
+/* Dim the preview image subtly behind the right-column Episode list on Season pages (like IMG_3663) */
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]) .detailImageContainer {
+  opacity: 0.22 !important;
+}
+
+.layout-tv #itemDetailPage .detailPagePrimaryContainer {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  padding: 0.8em 4.5vw 2em 4.5vw !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure all left-column text and action buttons always stack above .detailImageContainer */
+.layout-tv #itemDetailPage .infoWrapper,
+.layout-tv #itemDetailPage .nameContainer .parentName,
+.layout-tv #itemDetailPage .nameContainer .itemName,
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"],
+.layout-tv #itemDetailPage .nameContainer a[data-type="Series"],
+.layout-tv #itemDetailPage .itemMiscInfo-primary,
+.layout-tv #itemDetailPage .detailSectionContent,
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton,
+.layout-tv #itemDetailPage .trackSelections,
+.layout-tv #itemDetailPage #listChildrenCollapsible {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* Flatten .detailRibbon, .detailPagePrimaryContent, .detailSection, and .mainDetailButtons so
+ * buttons can be ordered individually:
+ *   3: ▶ Fortsetzen / Abspielen (.btnPlay / .btnResume — at the very top!)
+ *   4: ↺ Von Anfang an abspielen (.btnReplay)
+ *   5: ♥ Zu Favoriten hinzufügen (.btnUserRating)
+ *   6: ☷ Staffeln / Staffeln und Folgen (a[data-type="Season"] on Episode pages, a[data-type="Series"] on Season pages)
+ *   7: 💬 Audio und Untertitel (.trackSelections)
+ *   8: ⋮ Mehr (.btnMoreCommands — at the very bottom!)
+ */
+.layout-tv #itemDetailPage .detailRibbon,
+.layout-tv #itemDetailPage .detailPagePrimaryContent,
+.layout-tv #itemDetailPage .detailPagePrimaryContent > .detailSection,
+.layout-tv #itemDetailPage .mainDetailButtons {
+  display: contents !important;
+}
+
+.layout-tv #itemDetailPage .infoWrapper {
+  order: 1 !important;
+  max-width: 38vw !important;
+  margin-bottom: 0.3em !important;
+  text-align: left !important;
+}
+
+/* On Episode Detail pages (#itemDetailPage:has(a[data-type="Season"])), flatten .infoWrapper & .nameContainer so
+ * <a data-type="Season"> becomes a real "Staffeln und Folgen" pill button at order: 6!
+ */
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .infoWrapper,
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer,
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer .itemName.subtitle,
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer .itemName.subtitle > bdi {
+  display: contents !important;
+}
+
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer .parentName {
+  order: -2 !important;
+  max-width: 38vw !important;
+  text-align: left !important;
+}
+
+/* On Season Detail pages (#itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"]))),
+ * flatten .infoWrapper, .nameContainer, and .parentName so <a data-type="Series"> becomes a real "Staffeln" pill button at order: 6
+ * with the exact same size (22rem x 2.4rem) as Abspielen, Zu Favoriten hinzufügen, and Mehr!
+ */
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .infoWrapper,
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer,
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer .parentName,
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer .parentName > bdi {
+  display: contents !important;
+}
+
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer .itemName.subtitle {
+  order: -1 !important;
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+  margin: 0 0 0.45rem 0 !important;
+  text-align: left !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer {
+  font-size: 1rem !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  margin: 0 !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer .itemName,
+.layout-tv #itemDetailPage .nameContainer .parentName {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.02em !important;
+  color: #fff !important;
+  margin: 0 0 0.2rem 0 !important;
+  white-space: normal !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer .parentName + .itemName.subtitle {
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  color: #cfcfcf !important;
+  margin: 0 0 0.35rem 0 !important;
+  text-align: left !important;
+}
+
+/* On Episode Detail pages, keep the Series title at the top clean and non-underlined (since a[data-type="Season"] is the Staffeln button below) */
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer a[data-type="Series"],
+.layout-tv #itemDetailPage:has(a[data-type="Season"]) .nameContainer a[data-type="Series"]:focus {
+  display: inline !important;
+  font-size: inherit !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #fff !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  text-align: left !important;
+  transform: none !important;
+  scale: 1 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  pointer-events: none !important;
+}
+
+/* Real "Staffeln" / "Staffeln und Folgen" Pill Button on Episode & Season Detail Pages (order: 6).
+ * Matches the exact width (22rem), height (2.4rem), padding, font-size (0.98rem), and transform: none of .detailButton!
+ */
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"],
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"]:focus,
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer a[data-type="Series"],
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer a[data-type="Series"]:focus {
+  order: 6 !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 22rem !important;
+  max-width: 34vw !important;
+  height: 2.4rem !important;
+  min-height: 2.4rem !important;
+  padding: 0.42rem 1.05rem !important;
+  margin: 0.08rem 0 !important;
+  border-radius: 999px !important;
+  border: none !important;
+  font-size: 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+  scale: 1 !important;
+  box-shadow: none !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"],
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer a[data-type="Series"] {
+  background: transparent !important;
+  color: #e5e5e5 !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"]::before {
+  content: "☷    Staffeln und Folgen";
+  font-size: 0.98rem !important;
+  white-space: pre !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer a[data-type="Series"]::before {
+  content: "☷    Staffeln";
+  font-size: 0.98rem !important;
+  white-space: pre !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+.layout-tv #itemDetailPage .nameContainer a[data-type="Season"]:focus,
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]):not(:has(a[data-type="Season"])) .nameContainer a[data-type="Series"]:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.layout-tv #itemDetailPage .itemMiscInfo-primary {
+  order: 1 !important;
+  color: #cfcfcf !important;
+  font-size: 0.96em !important;
+  font-weight: 500 !important;
+  gap: 0.65em !important;
+  margin: 0.25em 0 0.45em 0 !important;
+  justify-content: flex-start !important;
+}
+
+/* Hide Rotten Tomatoes emojis/icons, extra release-date chips, "Endet um", and "Auch verfügbar in Germany auf:" (.streaming-lookup-container) everywhere */
+.layout-tv .mediaInfoCriticRating,
+.layout-tv .criticRating,
+.layout-tv .je-tomato,
+.layout-tv .rating-tomato-icon,
+.layout-tv .je-avg-user-rating-chip,
+.layout-tv [class*="je-release-date"],
+.layout-tv .je-release-date-chip,
+.layout-tv .endsAt,
+.layout-tv #itemDetailPage .itemMiscInfo-secondary,
+.layout-tv .streaming-lookup-container,
+html body .streaming-lookup-container {
+  display: none !important;
+}
+
+.layout-tv #itemDetailPage .mediaInfoOfficialRating {
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  border-radius: 3px !important;
+  padding: 0.05em 0.4em !important;
+}
+
+/* Synopsis positioned right under Title & Metadata like IMG_3634 & IMG_3662 */
+.layout-tv #itemDetailPage .detailSectionContent {
+  order: 2 !important;
+  max-width: 36vw !important;
+  margin-bottom: 0.65em !important;
+  text-align: left !important;
+}
+
+.layout-tv #itemDetailPage .detailSectionContent .overview {
+  color: #e6e6e6 !important;
+  font-size: 0.98em !important;
+  line-height: 1.42 !important;
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 3 !important;
+  overflow: hidden !important;
+  text-align: left !important;
+}
+
+.layout-tv #itemDetailPage .detailSectionContent .overview p {
+  margin: 0 !important;
+}
+
+/* Hide Tagline ("Das Böse muss konfrontiert werden.") and DoesTheDogDie Inhaltswarnungen / 41 Trigger section */
+.layout-tv #itemDetailPage .tagline,
+html body .layout-tv .je-ddd-section,
+html body .je-ddd-section,
+.layout-tv #itemDetailPage details.je-ddd-section {
+  display: none !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* On Season Episode selection view (IMG_3663/IMG_3664) or when the Audio & Untertitel menu is open (IMG_3665/IMG_3666),
+ * keep the left column compact so the Title & Metadata at the top never scroll out of view!
+ */
+.layout-tv #itemDetailPage:has(.listItem[data-type="Episode"]) .detailSectionContent,
+.layout-tv #itemDetailPage:has(.trackSelections:focus-within) .detailSectionContent {
+  display: none !important;
+}
+
+/* Vertical Netflix TV Action Pill List:
+ *   3: ▶ Fortsetzen / Abspielen (.btnPlay / .btnResume — at the very top!)
+ *   4: ↺ Von Anfang an abspielen (.btnReplay)
+ *   5: ♥ Zu Favoriten hinzufügen (.btnUserRating)
+ *   6: ☷ Staffeln und Folgen (a[data-type="Season"] / Season pill list — right before Audio & Untertitel and Mehr!)
+ *   7: 💬 Audio und Untertitel (.trackSelections — right before Mehr!)
+ *   8: ⋮ Mehr (.btnMoreCommands — at the very bottom!)
+ */
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton {
+  order: 5 !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  width: 22rem !important;
+  max-width: 34vw !important;
+  height: 2.4rem !important;
+  min-height: 2.4rem !important;
+  padding: 0.42rem 1.05rem !important;
+  margin: 0.08rem 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #e5e5e5 !important;
+  border: none !important;
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+  scale: 1 !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.btnPlay,
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.btnResume {
+  order: 3 !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.btnReplay {
+  order: 4 !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.btnUserRating {
+  order: 5 !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.btnMoreCommands {
+  order: 8 !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+  transform: none !important;
+  scale: 1 !important;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton[title]::after {
+  content: attr(title);
+  margin: 0 0 0 0.65rem !important;
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+  white-space: nowrap;
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .btnReplay[title]::after {
+  content: "Von Anfang an abspielen" !important;
+}
+
+/* Hide non-Netflix buttons & extra clutter sections (including "Mehr von Staffel 1" .moreFromSeasonSection!) */
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.hide,
+.layout-tv #itemDetailPage .mainDetailButtons .btnDownload,
+.layout-tv #itemDetailPage .mainDetailButtons .btnPlayTrailer,
+.layout-tv #itemDetailPage .mainDetailButtons .btnShuffle,
+.layout-tv #itemDetailPage .mainDetailButtons .btnInstantMix,
+.layout-tv #itemDetailPage .mainDetailButtons .btnPlaystate,
+.layout-tv #itemDetailPage .mainDetailButtons .btnSplitVersions,
+.layout-tv #itemDetailPage .mainDetailButtons .jellyseerr-report-issue-icon,
+.layout-tv #itemDetailPage .overview-controls,
+.layout-tv #itemDetailPage .tmdb-reviews-section,
+.layout-tv #itemDetailPage .itemGenres,
+.layout-tv #itemDetailPage .nextUpSection,
+.layout-tv #itemDetailPage .moreFromSeasonSection,
+.layout-tv #itemDetailPage #castCollapsible,
+.layout-tv #itemDetailPage #guestCastCollapsible,
+.layout-tv #itemDetailPage #similarCollapsible,
+.layout-tv #itemDetailPage .jellyseerr-details-section,
+.layout-tv #itemDetailPage .itemDetailsGroup,
+.layout-tv #itemDetailPage .itemTags,
+.layout-tv #itemDetailPage .itemExternalLinks,
+.layout-tv #itemDetailPage #scenesCollapsible,
+.layout-tv #itemDetailPage #specialsCollapsible {
+  display: none !important;
+}
+
+/* Unified "💬 Audio und Untertitel" Action Button + Submenu (matched to IMG_3662 -> IMG_3665/IMG_3666)
+ * Closed state (:not(:focus-within)): single "💬 Audio und Untertitel" pill button at order: 7 (right before Mehr at 8).
+ * Opened state (:focus-within): expands into a Netflix Audio & Untertitel submenu with Audio + Untertitel pill selectors!
+ */
+.layout-tv #itemDetailPage .trackSelections {
+  order: 7 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 22rem !important;
+  max-width: 34vw !important;
+  margin: 0.08rem 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections.hide,
+.layout-tv #itemDetailPage .trackSelections .selectContainer:not(.selectAudioContainer):not(.selectSubtitlesContainer),
+.layout-tv #itemDetailPage .trackSelections .selectContainer.hide {
+  display: none !important;
+}
+
+/* Closed state: single "💬 Audio und Untertitel" row in the vertical button stack */
+.layout-tv #itemDetailPage .trackSelections:not(:focus-within) {
+  min-height: 2.4rem !important;
+  padding: 0.42rem 1.05rem !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections:not(:focus-within):hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections::before {
+  content: "💬   Audio und Untertitel";
+  white-space: pre !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+  color: #e5e5e5 !important;
+  line-height: 1.2 !important;
+  pointer-events: none !important;
+}
+
+/* While closed, .selectAudio covers the single row invisibly so D-pad ArrowDown or mouse click focuses it and opens the submenu */
+.layout-tv #itemDetailPage .trackSelections:not(:focus-within) .selectAudioContainer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections:not(:focus-within) .selectAudioContainer .detailTrackSelect {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 2.4rem !important;
+  cursor: pointer !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections:not(:focus-within) .selectSubtitlesContainer {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Opened state (:focus-within): Netflix "Audio und Untertitel" submenu panel */
+.layout-tv #itemDetailPage .trackSelections:focus-within {
+  width: 24rem !important;
+  max-width: 36vw !important;
+  padding: 0.85rem 1.05rem !important;
+  margin: 0.3rem 0 !important;
+  border-radius: 14px !important;
+  background: rgba(20, 20, 20, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85) !important;
+  gap: 0.65rem !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections:focus-within::before {
+  color: #fff !important;
+  font-size: 1.02rem !important;
+  font-weight: 700 !important;
+  padding-bottom: 0.4rem !important;
+  margin-bottom: 0.1rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections .selectContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  position: relative !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections .selectLabel {
+  position: static !important;
+  flex-basis: auto !important;
+  -webkit-flex-basis: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.25 !important;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  color: #cfcfcf !important;
+  margin: 0 0 0.25rem 0.55rem !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections .detailTrackSelect {
+  border-radius: 999px !important;
+  padding: 0.46rem 2.2rem 0.46rem 1.05rem !important;
+  margin: 0 !important;
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #e5e5e5 !important;
+  border: none !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  transform: none !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections .detailTrackSelect:focus {
+  background-color: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.layout-tv #itemDetailPage .trackSelections .selectArrowContainer {
+  top: auto !important;
+  bottom: 0.35rem !important;
+  right: 0.65rem !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 4A. Season Pill List on Series Detail Page (matched to left column of IMG_3663 & IMG_3664)
+ * Transforms .card[data-type="Season"] into vertical Netflix pills: "Staffel 1          10 Folgen"
+ * Placed at order: 6 (right before Audio & Untertitel and Mehr!)
+ */
+.layout-tv #itemDetailPage #listChildrenCollapsible {
+  order: 9 !important;
+  width: 91vw !important;
+  margin-top: 0.2em !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.card[data-type="Season"]) {
+  order: 6 !important;
+  width: 22rem !important;
+  max-width: 34vw !important;
+  margin: 0.25rem 0 0.45rem 0 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.card[data-type="Season"]) .sectionTitle {
+  display: block !important;
+  padding-left: 0.65em !important;
+  margin: 0 0 0.35em 0 !important;
+  font-size: 1.02em !important;
+  font-weight: 700 !important;
+  color: #b8b8b8 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.card[data-type="Season"]) .itemsContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.22em !important;
+  padding: 0 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  contain: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardBox {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-height: 2.45em !important;
+  padding: 0.45em 1.15em !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #e5e5e5 !important;
+  box-sizing: border-box !important;
+  contain: none !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:focus .cardBox {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardPadder,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] canvas,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardOverlayContainer,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .playedIndicator {
+  display: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardScalable,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardImageContainer,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardIndicators {
+  position: static !important;
+  contain: none !important;
+  content-visibility: visible !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .countIndicator {
+  background: transparent !important;
+  color: #d6d6d6 !important;
+  font-size: 0.92em !important;
+  font-weight: 500 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:focus .countIndicator,
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:focus .cardText {
+  color: #000 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .countIndicator::after {
+  content: "Folgen";
+  margin-left: 0.28em;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardText {
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 1.02em !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-align: left !important;
+}
+
+/* 4B. Episode Selection List on Season Detail Page (matched to right column of IMG_3663 & IMG_3664)
+ * Positioned on the right column with 16:9 episode thumbnail, white focus border around thumbnail only,
+ * Netflix-red progress bar at bottom of thumbnail, and Title + 3-4 line Synopsis + (Duration) on the right!
+ */
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.listItem[data-type="Episode"]) {
+  width: 59vw !important;
+  margin-left: 32vw !important;
+  margin-top: -11.5em !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.listItem[data-type="Episode"]) .sectionTitle {
+  padding-left: 0 !important;
+  margin: 0 0 0.5em 0 !important;
+  font-size: 1.4em !important;
+  font-weight: 800 !important;
+  color: #fff !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible:has(.listItem[data-type="Episode"]) .itemsContainer {
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.85em !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 1.25em !important;
+  padding: 0.35em 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"]:focus {
+  background: transparent !important;
+  color: #fff !important;
+  outline: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemImage {
+  width: 18vw !important;
+  min-width: 18vw !important;
+  height: 10.1vw !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  border: 3px solid transparent !important;
+  box-sizing: border-box !important;
+  background-color: #181818 !important;
+  background-size: cover !important;
+  background-position: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  transition: border-color 150ms ease-out, box-shadow 150ms ease-out !important;
+}
+
+/* Real watch progress bar inside episode thumbnail (ONLY shown when an episode is actually started or completed!) */
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemImage .listItemProgressBar {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 4px !important;
+  margin: 0 !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemImage .playedIndicator {
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  width: 100% !important;
+  height: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: #e50914 !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  pointer-events: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemImage .playedIndicator * {
+  display: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"]:focus .listItemImage {
+  border-color: #fff !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8) !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemBody {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  padding: 0.1em 0 0 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemBody > h2.listItemBodyText {
+  order: 1 !important;
+  font-size: 1.12em !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  margin: 0 0 0.28em 0 !important;
+  line-height: 1.25 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItem-overview {
+  order: 2 !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 4 !important;
+  font-size: 0.92em !important;
+  line-height: 1.38 !important;
+  max-height: 5.52em !important;
+  color: #e6e6e6 !important;
+  overflow: hidden !important;
+  margin: 0 0 0.32em 0 !important;
+  white-space: normal !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItem-overview p {
+  margin: 0 !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo {
+  order: 3 !important;
+  color: #ccc !important;
+  font-size: 0.88em !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+}
+
+/* On Episode rows, only show duration (22m) — hide (⭐ 6.8), critic ratings, and endsAt */
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .endsAt,
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .starRatingContainer,
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .mediaInfoCriticRating,
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .criticRating,
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .mediaInfoOfficialRating,
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo [class*="je-"],
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listViewUserDataButtons {
+  display: none !important;
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .mediaInfoItem::before {
+  content: "(";
+}
+
+.layout-tv #itemDetailPage #listChildrenCollapsible .listItem[data-type="Episode"] .listItemMediaInfo .mediaInfoItem::after {
+  content: ")";
+}
+
+/* 5. Search View (matched to IMG_3651)
+ * Left column (27vw): Search input + clean 6x6 A-Z / 1-9 / 0 grid + 2 wide bottom keys (Space & Backspace)
+ * Right area: Suggestions & Search Results cards (Movies, Series, Seerr — without giant Personen headshots)
+ */
+.layout-tv .searchFields {
+  width: 27vw !important;
+  max-width: 27vw !important;
+  box-sizing: border-box !important;
+  padding: 0.5em 1.5vw 1em 4.5vw !important;
+  float: left !important;
+}
+
+.layout-tv .searchFieldsInner {
+  max-width: none !important;
+  margin: 0 0 0.8em 0 !important;
+}
+
+.layout-tv .searchfields-icon {
+  display: none !important;
+}
+
+.layout-tv #searchTextInput {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 2.7em !important;
+  padding: 0.45em 0.8em !important;
+  background: #1c1c1c !important;
+  color: #fff !important;
+  border: 2px solid #555 !important;
+  border-radius: 6px !important;
+  font-size: 1em !important;
+}
+
+.layout-tv #searchTextInput:focus {
+  border-color: #fff !important;
+  outline: none !important;
+}
+
+/* Merge both .alphaPickerRow divs into a single 6-column Netflix TV keyboard grid:
+ * A-Z, 1-9, 0 (36 keys = 6x6 rectangle) + bottom row Space (span 3) & Backspace (span 3)!
+ */
+.layout-tv .searchFields .alphaPicker {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 0.25em !important;
+  width: 100% !important;
+  margin: 0.4em 0 0 0 !important;
+  justify-content: stretch !important;
+}
+
+.layout-tv .searchFields .alphaPickerRow {
+  display: contents !important;
+}
+
+/* Remove the <br> tag that previously caused empty cells in the grid! */
+.layout-tv .searchFields .alphaPickerRow br,
+.layout-tv .searchFields .alphaPickerRow .hide {
+  display: none !important;
+}
+
+.layout-tv .searchFields .alphaPickerButton {
+  order: 1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 2.15em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #202020 !important;
+  color: #e5e5e5 !important;
+  border-radius: 4px !important;
+  font-size: 0.92em !important;
+  font-weight: 600 !important;
+}
+
+.layout-tv .searchFields .alphaPickerButton[data-value="0"] {
+  order: 2 !important;
+}
+
+.layout-tv .searchFields .alphaPickerButton[data-value=" "],
+.layout-tv .searchFields .alphaPickerButton[data-value="backspace"] {
+  order: 3 !important;
+  grid-column: span 3 !important;
+}
+
+.layout-tv .searchFields .alphaPickerButton:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.layout-tv .searchSuggestions,
+.layout-tv .searchResults {
+  margin-left: 29.5vw !important;
+  margin-right: 4.5vw !important;
+  padding-top: 0.4em !important;
+  text-align: left !important;
+}
+
+/* Hide giant "Personen" actor headshots row in Search so Movies, Series, and Seerr results appear at the top */
+.layout-tv .searchResults .verticalSection:has(.card[data-type="Person"]),
+.layout-tv .searchResults #peopleCollapsible {
+  display: none !important;
+}
+
+.layout-tv .searchSuggestionsList {
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.layout-tv .searchSuggestions .sectionTitle,
+.layout-tv .searchResults .sectionTitle {
+  padding-left: 0 !important;
+  font-size: 1.25em !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+}
+
+.layout-tv .searchSuggestions .button-link {
+  display: inline-block !important;
+  text-align: left !important;
+  padding: 0.5em 0.9em !important;
+  margin: 0.1em 0 !important;
+  color: #d6d6d6 !important;
+  border-radius: 999px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+.layout-tv .searchSuggestions .button-link:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.layout-tv .searchResults .overflowPortraitCard {
+  width: 14.5vw !important;
+}
+
+.layout-tv .searchResults .overflowBackdropCard {
+  width: 28vw !important;
+}
+
+/* 6. Settings, Dialogs & Audio/Subtitle ActionSheet Menus (matched to IMG_3665 & IMG_3666) */
+.layout-tv .emby-input,
+.layout-tv .emby-select,
+.layout-tv .emby-textarea {
+  background-color: #202020 !important;
+  color: #fff !important;
+  border-color: #777 !important;
+  border-radius: 6px !important;
+}
+
+.layout-tv input::placeholder,
+.layout-tv textarea::placeholder {
+  color: #b8b8b8 !important;
+  opacity: 1;
+}
+
+.layout-tv .raised,
+.layout-tv .button-submit {
+  background: #2b2b2b !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+.layout-tv .raised:focus,
+.layout-tv .button-submit:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: 2px solid #fff !important;
+  outline-offset: 2px;
+}
+
+.layout-tv .button-link {
+  color: #fff !important;
+}
+
+.layout-tv .dialog,
+.layout-tv .actionSheet {
+  background: rgba(16, 16, 16, 0.96) !important;
+  color: #fff !important;
+  border-radius: 12px !important;
+}
+
+.layout-tv .actionSheetMenuItem {
+  border-radius: 999px !important;
+  padding: 0.5em 1.2em !important;
+  margin: 0.15em 0.5em !important;
+  color: #e5e5e5 !important;
+}
+
+.layout-tv .actionSheetMenuItem:focus,
+.layout-tv .listItem:focus {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.layout-tv button:disabled {
+  opacity: 0.45 !important;
+}
+
+/* 7. Jellyseerr / "Entdecken auf Seerr" & "Anfordern" in Pure Netflix TV Design */
+.layout-tv [id^="je-native-tab-btn-"]:not(#je-native-tab-btn-requests),
+.layout-tv [id^="je-native-tab-link-"]:not(#je-native-tab-link-requests) {
+  display: none !important;
+}
+
+.layout-tv #je-native-tab-btn-requests {
+  display: inline-flex !important;
+}
+
+/* Clean up Seerr cards: remove purple eyeball icon, Disney+ provider strip, green collection pill, and poster blur */
+.layout-tv .jellyseerr-icon,
+.layout-tv .jellyseerr-icon-on-card,
+.layout-tv .jellyseerr-elsewhere-icons,
+.layout-tv .jellyseerr-collection-badge,
+.layout-tv .jellyseerr-rating,
+.layout-tv .jellyseerr-overview .content,
+.layout-tv .jellyseerr-overview .title,
+.layout-tv .jellyseerr-split-arrow {
+  display: none !important;
+}
+
+/* Subtle dark translucent Netflix badge instead of neon pink/blue/green SERIE/FILM/SAMMLUNG badges */
+.layout-tv .jellyseerr-media-badge {
+  background: rgba(0, 0, 0, 0.76) !important;
+  color: #e5e5e5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 4px !important;
+  padding: 0.2em 0.55em !important;
+  font-size: 0.64rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Keep poster artwork sharp when focused/hovered and anchor the "Anfordern" pill cleanly at the bottom */
+.layout-tv .jellyseerr-overview {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.88) 100%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 10px !important;
+  justify-content: flex-end !important;
+}
+
+.layout-tv .jellyseerr-button-group {
+  width: 100% !important;
+  display: flex !important;
+}
+
+/* Single clean Netflix "Anfordern" pill button (no purple, no double downward arrows!) */
+.layout-tv .jellyseerr-request-button {
+  width: 100% !important;
+  border-radius: 999px !important;
+  padding: 0.56em 1em !important;
+  font-size: 0.86rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  border: none !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.75) !important;
+  transform: none !important;
+  transition: background-color 140ms ease-out, color 140ms ease-out !important;
+}
+
+.layout-tv .jellyseerr-request-button::after {
+  content: none !important;
+  display: none !important;
+}
+
+.layout-tv .jellyseerr-request-button.jellyseerr-button-request,
+.layout-tv .jellyseerr-request-button.jellyseerr-button-collection {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+.layout-tv .jellyseerr-request-button.jellyseerr-button-request:hover:not(:disabled),
+.layout-tv .jellyseerr-request-button.jellyseerr-button-request:focus:not(:disabled),
+.layout-tv .jellyseerr-request-button.jellyseerr-button-collection:hover:not(:disabled),
+.layout-tv .jellyseerr-request-button.jellyseerr-button-collection:focus:not(:disabled) {
+  background: #e50914 !important;
+  color: #fff !important;
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5) !important;
+  outline: none !important;
+}
+
+.layout-tv .jellyseerr-request-button.jellyseerr-button-pending,
+.layout-tv .jellyseerr-request-button.jellyseerr-button-processing {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+
+.layout-tv .jellyseerr-request-button.jellyseerr-button-available,
+.layout-tv .jellyseerr-request-button.jellyseerr-button-partially-available {
+  background: rgba(24, 24, 24, 0.9) !important;
+  color: #46d369 !important;
+  border: 1px solid rgba(70, 211, 105, 0.45) !important;
+}
+
+.layout-tv .jellyseerr-card .cardText-first {
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 0.95em !important;
+  padding-top: 0.35em !important;
+}
+
+.layout-tv .jellyseerr-card .jellyseerr-meta {
+  color: #9e9e9e !important;
+  font-size: 0.85em !important;
+  min-height: 1.4em !important;
+}
+
+/* Jellyseerr Season / Movie Request Modal & More Info Modal in Pure Netflix Dark (#141414) + Red (#e50914)
+ * Also traps TV D-pad / Tab spatial navigation (focusManager) strictly inside the open modal by setting display: none !important
+ * on focusable controls behind the modal so getBoundingClientRect() returns 0x0 for everything outside the modal!
+ */
+body.jellyseerr-modal-is-open .skinHeader,
+body:has(.jellyseerr-season-modal) .skinHeader,
+body:has(.je-more-info-modal) .skinHeader,
+body.jellyseerr-modal-is-open .mainAnimatedPages :is(button, a, input, select, textarea, .focusable),
+body:has(.jellyseerr-season-modal) .mainAnimatedPages :is(button, a, input, select, textarea, .focusable),
+body:has(.je-more-info-modal) .mainAnimatedPages :is(button, a, input, select, textarea, .focusable),
+body:has(.jellyseerr-season-modal) .je-more-info-modal :is(button, a, input, select, textarea, .focusable) {
+  display: none !important;
+}
+
+html body .jellyseerr-season-modal,
+html body .je-more-info-modal .modal-overlay {
+  background: rgba(0, 0, 0, 0.88) !important;
+}
+
+html body .jellyseerr-season-content,
+html body .je-more-info-modal .modal-container {
+  background: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.92) !important;
+}
+
+html body .jellyseerr-season-header::before,
+html body .je-more-info-modal .je-modal-backdrop-overlay {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.25) 0%, rgba(20, 20, 20, 0.78) 60%, #141414 100%) !important;
+}
+
+html body .jellyseerr-season-title {
+  color: #e50914 !important;
+  text-shadow: none !important;
+}
+
+html body .jellyseerr-season-header-row,
+html body .jellyseerr-season-item {
+  background: #1f1f1f !important;
+  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+}
+
+html body .jellyseerr-season-item:hover:not(.disabled),
+html body .jellyseerr-season-header-row:focus-within,
+html body .jellyseerr-season-item:focus-within {
+  background: #2b2b2b !important;
+  border-color: #fff !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.7) !important;
+  transform: none !important;
+}
+
+html body .jellyseerr-season-checkbox:checked {
+  background: #e50914 !important;
+}
+
+html body .jellyseerr-season-checkbox:focus,
+html body .jellyseerr-season-checkbox:focus-visible {
+  outline: 2px solid #fff !important;
+  outline-offset: 2px !important;
+}
+
+html body .jellyseerr-advanced-options select[is="emby-select"]:focus {
+  border-color: #fff !important;
+  background-color: #2b2b2b !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+
+html body .jellyseerr-tv-picker {
+  background: #1c1c1c !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 8px !important;
+  padding: 6px !important;
+  margin-top: 6px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+html body .jellyseerr-tv-picker-option {
+  background: transparent !important;
+  color: #e5e5e5 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 0.5em 1em !important;
+  text-align: left !important;
+  font-weight: 600 !important;
+}
+
+html body .jellyseerr-tv-picker-option:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+html body .jellyseerr-season-status-not-requested {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #d6d6d6 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+html body .jellyseerr-modal-footer {
+  background: #141414 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+html body .jellyseerr-modal-button {
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  padding: 0.7em 1.6em !important;
+}
+
+html body .jellyseerr-modal-button-primary {
+  background: #e50914 !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+html body .jellyseerr-modal-button-primary:hover:not(:disabled),
+html body .jellyseerr-modal-button-primary:focus:not(:disabled) {
+  background: #fff !important;
+  color: #000 !important;
+  transform: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35) !important;
+  outline: none !important;
+}
+
+html body .jellyseerr-modal-button-secondary {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+html body .jellyseerr-modal-button-secondary:hover,
+html body .jellyseerr-modal-button-secondary:focus {
+  background: #fff !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.layout-tv .jellyfinenhanced.requests {
+  color: #fff !important;
+  background: #000 !important;
+  padding: 0.5em 4.5vw !important;
+}
+
+.layout-tv .je-request-card {
+  background: #1b1b1b !important;
+  border-radius: 8px !important;
+}
+
+.layout-tv .jellyfinenhanced.requests button:focus {
+  color: #000 !important;
+  background: #fff !important;
+}
+
+/* 8. Video Player OSD (#videoOsdPage), Loading Bars, Spinners & "Vorspann überspringen" (.skip-button) in Netflix Design
+ * Replaces all Jellyfin blue (#00a4dc / #3b82f6) progress bars, sliders, and spinners with Netflix Red (#e50914),
+ * keeps --jf-palette-secondary-main as #fff so card selection borders are ALWAYS crisp white (#fff),
+ * and styles "Vorspann überspringen" as a crisp white Netflix button!
+ */
+:root,
+html,
+body,
+.layout-tv {
+  --jf-palette-primary-main: #e50914 !important;
+  --jf-palette-primary-dark: #b20710 !important;
+  --jf-palette-secondary-main: #fff !important;
+  --primary-accent-color: #e50914 !important;
+  --theme-primary-color: #e50914 !important;
+  --je-as-accent: #e50914 !important;
+  --je-activity-accent: #e50914 !important;
+  --je-catchup-accent: #e50914 !important;
+}
+
+.layout-tv .mdl-spinner__layer-1,
+.layout-tv .mdl-spinner__layer-2,
+.layout-tv .mdl-spinner__layer-3,
+.layout-tv .mdl-spinner__layer-4,
+.layout-tv .progressring-spiner,
+html body .mdl-spinner__layer-1,
+html body .mdl-spinner__layer-2,
+html body .mdl-spinner__layer-3,
+html body .mdl-spinner__layer-4,
+html body .progressring-spiner {
+  border-color: #e50914 !important;
+}
+
+.layout-tv .jellyseerr-loading-spinner,
+.layout-tv .jellyseerr-button-spinner,
+html body .jellyseerr-loading-spinner,
+html body .jellyseerr-button-spinner {
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  border-top-color: #e50914 !important;
+}
+
+.layout-tv .itemProgressBarForeground,
+.layout-tv .listItemProgressBar .itemProgressBarForeground,
+.layout-tv .mdl-slider-background-lower,
+.layout-tv .iconOsdProgressInner,
+.layout-tv .jellyseerr-inline-progress-fill,
+.layout-tv .jellyseerr-hover-popover .jellyseerr-hover-progress .bar,
+.layout-tv .je-as-progress-fill,
+.layout-tv .je-activity-progress-fill,
+html body .itemProgressBarForeground,
+html body .listItemProgressBar .itemProgressBarForeground,
+html body .mdl-slider-background-lower,
+html body .iconOsdProgressInner,
+html body .jellyseerr-inline-progress-fill,
+html body .jellyseerr-hover-popover .jellyseerr-hover-progress .bar,
+html body .je-as-progress-fill,
+html body .je-activity-progress-fill {
+  background: #e50914 !important;
+  background-color: #e50914 !important;
+}
+
+.layout-tv progress,
+html body progress {
+  accent-color: #e50914 !important;
+}
+
+.layout-tv progress::-webkit-progress-value,
+html body progress::-webkit-progress-value {
+  background-color: #e50914 !important;
+}
+
+.layout-tv .mdl-slider,
+html body .mdl-slider {
+  color: #e50914 !important;
+  accent-color: #e50914 !important;
+}
+
+.layout-tv .mdl-slider::-webkit-slider-thumb,
+html body .mdl-slider::-webkit-slider-thumb {
+  background: #e50914 !important;
+  border-color: #e50914 !important;
+}
+
+.layout-tv .mdl-slider:focus::-webkit-slider-thumb,
+html body .mdl-slider:focus::-webkit-slider-thumb {
+  background: #e50914 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.45) !important;
+}
+
+.layout-tv .mdl-slider::-moz-range-thumb,
+html body .mdl-slider::-moz-range-thumb {
+  background: #e50914 !important;
+  border-color: #e50914 !important;
+}
+
+.layout-tv .sliderBubble {
+  background-color: rgba(20, 20, 20, 0.94) !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+
+/* Hide unneeded TV buttons & clutter in .videoOsdBottom:
+ * Removes Endet um 23:33 (.osdTimeText / .endsAtText), AirPlay, PiP, Fullscreen, Settings gear, Volume slider,
+ * Previous Track/Chapter, Record, Star ratings, Bookmark, and Heart so only Play/Pause, Rewind, FastForward, Next, Audio & Subtitles remain!
+ */
+.layout-tv .videoOsdBottom .osdTimeText,
+.layout-tv .videoOsdBottom .endsAtText,
+.layout-tv .videoOsdBottom .endsAt,
+.layout-tv .videoOsdBottom .btnRecord,
+.layout-tv .videoOsdBottom .btnPreviousTrack,
+.layout-tv .videoOsdBottom .btnPreviousChapter,
+.layout-tv .videoOsdBottom .btnNextChapter,
+.layout-tv .videoOsdBottom .volumeButtons,
+.layout-tv .videoOsdBottom .btnVideoOsdSettings,
+.layout-tv .videoOsdBottom .btnAirPlay,
+.layout-tv .videoOsdBottom .btnPip,
+.layout-tv .videoOsdBottom .btnFullscreen,
+.layout-tv .videoOsdBottom .starRatingContainer,
+.layout-tv .videoOsdBottom [id*="osd-rating"],
+.layout-tv .videoOsdBottom .je-tomato,
+.layout-tv .videoOsdBottom #enhancedSettingsBtn,
+.layout-tv .videoOsdBottom #jeBookmarkBtn,
+.layout-tv .videoOsdBottom .btnUserRating {
+  display: none !important;
+}
+
+.layout-tv .videoOsdBottom .buttons > div:first-child {
+  margin-right: auto !important;
+}
+
+.layout-tv .videoOsdBottom .paper-icon-button-light:focus {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-radius: 999px !important;
+}
+
+/* Netflix "Vorspann überspringen" / "Intro überspringen" Button (.skip-button) */
+.layout-tv .skip-button,
+html body .skip-button,
+html body button.skip-button.emby-button {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #000 !important;
+  border: 2px solid #fff !important;
+  border-radius: 4px !important;
+  padding: 0.58em 1.35em !important;
+  font-size: 1.02rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+  transform: none !important;
+}
+
+.layout-tv .skip-button:hover,
+.layout-tv .skip-button:focus,
+html body .skip-button:hover,
+html body .skip-button:focus,
+html body button.skip-button.emby-button:hover,
+html body button.skip-button.emby-button:focus {
+  background: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 10px 28px rgba(0, 0, 0, 0.85) !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layout-tv .emby-tab-button,
+  .layout-tv .homePage .verticalSection:not(.MyMedia) .card,
+  .layout-tv .card .cardScalable {
+    transition: none !important;
+  }
+}
+
+
+
+/* Requests: neutral Netflix surfaces and stable TV focus geometry. */
+.layout-tv :is(.je-downloads-page, .jellyfinenhanced.requests) {
+  color: #f5f5f5 !important;
+  background: #000 !important;
+  color-scheme: dark;
+  scroll-padding: 7em 2em 3em;
+}
+.layout-tv .je-downloads-section { margin-bottom: 1.5em !important; }
+.layout-tv .je-downloads-section:has(.je-empty-state):not(:has(.je-download-card)) { display: none !important; }
+.layout-tv .je-empty-state {
+  padding: 1.2em !important;
+  color: #b3b3b3 !important;
+  opacity: 1 !important;
+}
+.layout-tv :is(.je-requests-tabs, .je-downloads-tabs, .je-issues-tabs) {
+  gap: .65em !important;
+  padding: .25em !important;
+  margin: 0 -.25em 1.2em !important;
+}
+.layout-tv :is(.je-requests-tab, .je-downloads-tab, .je-issues-tab).emby-button {
+  min-height: 2.8em !important;
+  padding: .65em 1.1em !important;
+  background: #262626 !important;
+  color: #e5e5e5 !important;
+  border: 2px solid transparent !important;
+  border-radius: 5px !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 120ms ease-out, color 120ms ease-out !important;
+}
+.layout-tv :is(.je-requests-tab, .je-downloads-tab, .je-issues-tab).emby-button.active {
+  background: #fff !important;
+  color: #111 !important;
+  box-shadow: inset 0 -3px #e50914 !important;
+}
+.layout-tv :is(.je-requests-tab, .je-downloads-tab, .je-issues-tab).emby-button:focus {
+  outline: 3px solid #fff !important;
+  outline-offset: 4px !important;
+  background: #fff !important;
+  color: #111 !important;
+}
+.layout-tv .je-downloads-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1em !important;
+  padding: .25em !important;
+}
+.layout-tv :is(.je-request-card, .je-download-card, .je-issue-card) {
+  position: relative;
+  background: #181818 !important;
+  color: #f5f5f5 !important;
+  border: 2px solid transparent !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  scroll-margin-block: 7em 3em;
+}
+.layout-tv :is(.je-request-card, .je-download-card, .je-issue-card):focus-within {
+  border-color: #fff !important;
+  background: #242424 !important;
+}
+.layout-tv .je-request-poster { width: 5em !important; height: 7.5em !important; max-height: none !important; border-radius: 4px !important; }
+.layout-tv .je-request-title {
+  white-space: normal !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  min-height: 2.6em;
+}
+.layout-tv .je-request-year { color: #b3b3b3 !important; opacity: 1 !important; }
+.layout-tv .je-request-info { gap: .4em !important; }
+.layout-tv .je-request-meta { color: #b3b3b3 !important; font-size: .8em !important; opacity: 1 !important; }
+.layout-tv .je-request-meta-left { flex-wrap: wrap !important; justify-content: flex-start !important; }
+.layout-tv .je-request-avatar { display: none !important; }
+.layout-tv .je-request-external-links { display: none !important; }
+.layout-tv :is(.je-requests-status-chip, .je-request-status, .je-download-badge:not(.je-arr-badge), .je-issue-status-chip, .je-issue-type-chip, .je-release-date-chip) {
+  background: #303030 !important;
+  color: #e5e5e5 !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: .8em !important;
+  font-weight: 600 !important;
+  padding: .3em .6em !important;
+}
+.layout-tv .je-requests-status-chip.je-chip-available { color: #8ee5a3 !important; }
+.layout-tv :is(.je-chip-rejected, .je-chip-declined, .je-chip-deleted) { color: #ffaaaa !important; }
+.layout-tv .je-request-actions { margin-top: auto !important; padding-top: .7em !important; }
+.layout-tv :is(.je-request-watch-btn, .je-request-approve-btn, .je-request-decline-btn, .je-refresh-btn, .je-issue-view-btn) {
+  min-width: 2.8em !important;
+  min-height: 2.8em !important;
+  width: auto !important;
+  height: auto !important;
+  padding: .65em 1em !important;
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid transparent !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 120ms ease-out !important;
+  font: inherit !important;
+}
+.layout-tv .je-request-watch-btn::after {
+  content: "Ansehen";
+  margin-left: .5em;
+  font-weight: 700;
+  font-size: .9em;
+}
+/* The button occupies its entire tile, so Jellyfin sees a regular grid of
+ * focus rectangles rather than tiny, differently positioned play circles.
+ * Keep the visible action at the bottom of the tile. */
+.layout-tv .je-request-card:has(.je-request-watch-btn) {
+  padding-bottom: 4.6em !important;
+}
+.layout-tv .je-request-card .je-request-watch-btn {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  border-radius: 6px !important;
+  z-index: 1;
+  scroll-margin-block: 7em 2em;
+}
+.layout-tv .je-request-card .je-request-watch-btn .material-icons { display: none !important; }
+.layout-tv .je-request-card .je-request-watch-btn::after {
+  content: "▶  Ansehen";
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  margin: 0;
+  padding: .65em 1.3em;
+  border-radius: 4px;
+  background: #333;
+  color: #fff;
+  font-size: .9em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.layout-tv .je-request-card .je-request-watch-btn:focus {
+  background: transparent !important;
+  outline: 3px solid #fff !important;
+  outline-offset: 3px !important;
+}
+.layout-tv .je-request-card .je-request-watch-btn:focus::after {
+  background: #fff;
+  color: #111;
+}
+.layout-tv :is(.je-request-watch-btn, .je-refresh-btn, .je-issue-view-btn):focus {
+  outline: 3px solid #fff !important;
+  outline-offset: 4px !important;
+  background: #e5e5e5 !important;
+  color: #111 !important;
+}
+.layout-tv .je-pagination .emby-button {
+  min-height: 2.8em !important;
+  padding: .6em 1em !important;
+  background: #262626 !important;
+  color: #fff !important;
+  border: 2px solid transparent !important;
+  border-radius: 5px !important;
+  transform: none !important;
+  transition: none !important;
+}
+.layout-tv .je-pagination .emby-button:focus { outline: 3px solid #fff !important; outline-offset: 4px !important; }
+.layout-tv :is(.je-download-progress-bar, .je-download-progress-fill) { background: #e50914 !important; }
+html.layout-tv body :is(.jellyseerr-season-content, .je-more-info-modal .modal-container) { background: #181818 !important; border: 0 !important; box-shadow: none !important; }
+html.layout-tv body .jellyseerr-season-title { color: #fff !important; }
+html.layout-tv body :is(.jellyseerr-season-item, .jellyseerr-season-header-row) { min-height: 3em !important; scroll-margin-block: 5em; box-shadow: none !important; }
+html.layout-tv body .jellyseerr-modal-button { min-height: 2.8em !important; border-radius: 5px !important; transform: none !important; }
+html.layout-tv body .jellyseerr-modal-button-primary { background: #fff !important; color: #111 !important; }
+html.layout-tv body .jellyseerr-modal-button:focus { outline: 3px solid #fff !important; outline-offset: 4px !important; box-shadow: none !important; }
+@media (max-width: 1000px) {
+  .layout-tv .je-downloads-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .layout-tv :is(.je-requests-tab, .je-downloads-tab, .je-issues-tab, .je-request-watch-btn, .je-refresh-btn) { transition: none !important; }
+}
+
+/* Film library: Genres + Suggestions, using Jellyfin's native genre rows. */
+.layout-tv body:has(#moviesPage:not(.hide)) .headerTabs .emby-tab-button:not([data-index="1"]):not([data-index="4"]) {
+  display: none !important;
+}
+.layout-tv body:has(#moviesPage:not(.hide)) .headerTabs .emby-tabs-slider {
+  display: flex !important;
+}
+.layout-tv body:has(#moviesPage:not(.hide)) .headerTabs .emby-tab-button[data-index="4"] { order: -1 !important; }
+/* Genre names remain readable headings; remove the red button treatment. */
+.layout-tv #moviesPage #genresTab .sectionTitleTextButton {
+  background: transparent !important;
+  color: #f5f5f5 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+.layout-tv #moviesPage #genresTab .sectionTitleTextButton .material-icons { display: none !important; }
+.layout-tv #moviesPage #genresTab .sectionTitleTextButton:focus {
+  background: transparent !important;
+  color: #fff !important;
+  outline: 2px solid #fff !important;
+  outline-offset: 4px !important;
+}
+/* Hide bulk controls and counters, with no effect on card sizes or rows. */
+.layout-tv #moviesPage :is(#moviesTab, #favoritesTab, #collectionsTab) > .focuscontainer-x,
+.layout-tv #moviesPage :is(.alphaPicker, .btnPlayAll, .btnShuffle, .btnSort, .btnFilter-wrapper, .btnFilter, .btnSelectView) {
+  display: none !important;
+}
+
+/* Genre headings have no focus rectangle for spatial TV navigation. */
+html.layout-tv body #moviesPage #genresTab .sectionTitleTextButton,
+html.layout-tv body #moviesPage #genresTab .sectionTitleTextButton:is(:hover,:focus,:focus-visible) {
+ display: contents !important;
+ pointer-events: none !important;
+ outline: none !important;
+ border: 0 !important;
+ background: transparent !important;
+ box-shadow: none !important;
+}
+html.layout-tv body #moviesPage #genresTab .sectionTitleTextButton > .sectionTitle {
+ display: block !important;
+ pointer-events: none !important;
+ color: #f5f5f5 !important;
+ background: transparent !important;
+ outline: none !important;
+ margin: 0 !important;
+}
+
+/* Keep genre headings anchored to the row's left content edge. */
+html.layout-tv body #moviesPage #genresTab .sectionTitleContainer {
+ display: block !important;
+ width: auto !important;
+ text-align: left !important;
+ justify-content: flex-start !important;
+ padding-left: 4.5vw !important;
+ padding-right: 4.5vw !important;
+}
+html.layout-tv body #moviesPage #genresTab .sectionTitleTextButton > .sectionTitle {
+ width: 100% !important;
+ text-align: left !important;
+ margin-left: 0 !important;
+ margin-right: 0 !important;
+ padding-left: 0 !important;
+ padding-right: 0 !important;
+ float: none !important;
+}
+
+
+/* Preserve the native Season action element's full geometry for TV remotes. */
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] {
+  position: relative !important;
+  min-height: 3.2em !important;
+  flex-shrink: 0 !important;
+  transform: none !important;
+  scroll-margin-block: 7em 2em;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardBox {
+  position: relative !important;
+  display: flex !important;
+  min-height: 3.2em !important;
+  border-radius: 5px !important;
+  background: #262626 !important;
+  transform: none !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardScalable {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 3.2em !important;
+  border-radius: 5px !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardImageContainer {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 3.2em !important;
+  pointer-events: auto !important;
+  border-radius: 5px !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"] .cardText {
+  position: relative !important;
+  z-index: 1;
+  pointer-events: none !important;
+  color: #fff !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:is(:focus,:focus-within) .cardBox {
+  background: #fff !important;
+  outline: 3px solid #fff !important;
+  outline-offset: 3px !important;
+}
+html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Season"]:is(:focus,:focus-within) .cardText {
+  color: #111 !important;
+}
+/* Keep keyboard focus visibly distinct without enlarging keys. */
+.layout-tv .searchFields .alphaPickerButton:focus {
+  transform: none !important;
+  background: #fff !important;
+  color: #111 !important;
+  outline: 2px solid #fff !important;
+  outline-offset: 2px !important;
+}
+
+/* A stretched action is transparent; only its visible label becomes white. */
+html.layout-tv body .je-request-card .je-request-watch-btn,
+html.layout-tv body .je-request-card .je-request-watch-btn:is(:hover,:focus,:focus-visible,:active) {
+ background: transparent !important;
+ background-color: transparent !important;
+ background-image: none !important;
+ box-shadow: none !important;
+ opacity: 1 !important;
+ transform: none !important;
+}
+html.layout-tv body .je-request-card:focus-within {
+ background: #242424 !important;
+ color: #f5f5f5 !important;
+ border-color: #fff !important;
+}
+html.layout-tv body .je-request-card .je-request-watch-btn:is(:focus,:focus-visible)::after {
+ background: #fff !important;
+ color: #111 !important;
+}
+html.layout-tv body .je-request-card .je-request-title { color: #f5f5f5 !important; }
+html.layout-tv body .je-request-card :is(.je-request-year,.je-request-meta) { color:#b3b3b3 !important; }
+
+/* Header search must have a matching foreground/background in every state. */
+html.layout-tv body .skinHeader .headerSearchButton {
+  color: #eee !important;
+  background: #202020 !important;
+}
+html.layout-tv body .skinHeader .headerSearchButton:is(:focus,:focus-visible) {
+  background: #fff !important;
+  color: #111 !important;
+  outline: 2px solid #fff !important;
+  outline-offset: 3px !important;
+}
+html.layout-tv body .skinHeader .headerSearchButton .material-icons { color: inherit !important; }
+/* Keep the keyboard available while the independent results area is browsed. */
+html.layout-tv body .searchFields {
+  position: sticky !important;
+  top: 6.4em !important;
+  max-height: calc(100vh - 7em) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-padding-block: .5em;
+}
+/* Expand only cards in Seerr's horizontal scroller. Preserve both native
+ * action elements; removing their boxes made remote entry fail previously. */
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card {
+  width: 16.2vw !important;
+  flex-shrink: 0 !important;
+  transition: width 220ms cubic-bezier(.22,1,.36,1) !important;
+}
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card:is(:hover,:focus-within) { width: 36vw !important; }
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card .cardScalable {
+  height: 20.2vw !important;
+  aspect-ratio: auto !important;
+  transform: none !important;
+}
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card .cardPadder { display:none !important; }
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-poster-image {
+  height: 100% !important;
+  background-position: center !important;
+  background-size: cover !important;
+}
+html.layout-tv body .jellyseerr-section .jellyseerr-card:focus-within .cardScalable { border-color:#fff !important; }
+html.layout-tv body .jellyseerr-section .jellyseerr-card .cardText {
+  text-align:left !important;
+  background:transparent !important;
+}
+html.layout-tv body .jellyseerr-section .jellyseerr-card .jellyseerr-more-info-link {
+  display:block !important;
+  min-height:1.4em !important;
+  color:#f5f5f5 !important;
+  background:transparent !important;
+  border-radius:4px !important;
+  padding:.1em .15em !important;
+}
+html.layout-tv body .jellyseerr-section .jellyseerr-card .jellyseerr-more-info-link:focus {
+  color:#fff !important;
+  background:#303030 !important;
+  outline:2px solid #fff !important;
+  outline-offset:1px !important;
+  transform:none !important;
+}
+/* Request modals are appended to body by Jellyfin Enhanced. Temporarily
+ * remove the background page's controls from spatial focus candidates. */
+html.layout-tv body.jellyseerr-modal-is-open .mainAnimatedPages { display:none !important; }
+html.layout-tv body .jellyseerr-season-content {
+  width: min(52em, 88vw) !important;
+  max-height: 88vh !important;
+  overflow-y: auto !important;
+  background:#181818 !important;
+  color:#f5f5f5 !important;
+  border-radius:8px !important;
+}
+html.layout-tv body .jellyseerr-advanced-options {
+  border-color:#383838 !important;
+  color:#ddd !important;
+}
+html.layout-tv body .jellyseerr-advanced-options :is(h3,label) {
+  color:#ddd !important;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+}
+html.layout-tv body .jellyseerr-advanced-options select {
+  min-height:3em !important;
+  background:#303030 !important;
+  color:#fff !important;
+  border:2px solid #555 !important;
+  border-radius:4px !important;
+}
+html.layout-tv body .jellyseerr-advanced-options select:focus {
+  background:#3b3b3b !important;
+  border-color:#fff !important;
+  box-shadow:none !important;
+  outline:2px solid #fff !important;
+  outline-offset:3px !important;
+}
+@media(prefers-reduced-motion:reduce) {
+  html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card { transition:none !important; }
+}
+
+/* Seerr: one focus frame on artwork, compact action, plain title. */
+html.layout-tv body .jellyseerr-section .jellyseerr-card .jellyseerr-more-info-link:is(:focus,:hover,:active) {
+ background: transparent !important;
+ outline: none !important;
+ border: 0 !important;
+ box-shadow: none !important;
+ color: #fff !important;
+}
+html.layout-tv body .jellyseerr-card .jellyseerr-button-group {
+ width: auto !important;
+ justify-content: flex-start !important;
+}
+html.layout-tv body .jellyseerr-card .jellyseerr-request-button {
+ width: auto !important;
+ min-width: 8em !important;
+ max-width: 100% !important;
+ flex: 0 1 auto !important;
+ border-radius: 4px !important;
+ padding: .65em 1.15em !important;
+ box-shadow: none !important;
+}
+/* The extension requires its more-info step on TV. Keep only the native
+ * title, close control and request action; do not simulate a request click. */
+html.layout-tv body .je-more-info-modal :is(.modal-backdrop,.header-poster,.meta-info,.tagline,.je-requested-by,.overview-section,.je-more-info-right-panel,.je-more-info-secondary-actions,.modal-refresh) {
+ display: none !important;
+}
+html.layout-tv body .je-more-info-modal .modal-container {
+ width: min(42em,88vw) !important;
+ max-height: 85vh !important;
+ margin: auto !important;
+ border-radius: 8px !important;
+ background: #181818 !important;
+}
+html.layout-tv body .je-more-info-modal :is(.modal-content,.modal-main,.modal-left,.header-section,.header-info) {
+ display: block !important;
+ width: auto !important;
+ max-width: none !important;
+ min-width: 0 !important;
+ position: relative !important;
+ top: auto !important;
+ margin: 0 !important;
+}
+html.layout-tv body .je-more-info-modal .modal-content { padding: 2em !important; }
+html.layout-tv body .je-more-info-modal .title { font-size:1.7em !important; margin:0 2em .8em 0 !important; }
+html.layout-tv body .je-more-info-modal .je-more-info-actions { margin-top:1em !important; }
+
+/* Request form: quality only; keep default server/folder values intact. */
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-server"]),
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-row:has(select[id$="-folder"]),
+html.layout-tv body .jellyseerr-advanced-options > h3 {
+  display: none !important;
+}
+html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-quality"]) {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+/* Restore a single page scroll surface for native spatial navigation. */
+html.layout-tv body .searchFields {
+  position: relative !important;
+  top: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+html.layout-tv body :is(.searchResults,.searchSuggestions) {
+  margin-left: 27vw !important;
+}
+
+/* Square season checkboxes instead of switch tracks. */
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox {
+  appearance: none !important; -webkit-appearance: none !important;
+  width: 1.35em !important; height: 1.35em !important; min-width: 1.35em !important;
+  flex: 0 0 1.35em !important; border: 2px solid #aaa !important;
+  border-radius: .15em !important; background: #202020 !important;
+  position: relative !important; box-sizing: border-box !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox::before {
+  content: none !important; transform: none !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:checked {
+  background: #fff !important; border-color: #fff !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:checked::after {
+  content: '' !important; position: absolute !important;
+  left: 32% !important; top: 12% !important; width: 25% !important; height: 50% !important;
+  border: solid #111 !important; border-width: 0 3px 3px 0 !important;
+  transform: rotate(45deg) !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:focus {
+  outline: 3px solid #fff !important; outline-offset: 5px !important;
+}
+html.layout-tv body .jellyseerr-season-item:focus-within,
+html.layout-tv body .jellyseerr-season-header-row:focus-within {
+  background: #292929 !important; box-shadow: inset 0 0 0 2px #fff !important;
+}
