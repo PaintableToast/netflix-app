@@ -2499,16 +2499,10 @@ html.layout-tv body .je-more-info-modal .modal-content { padding: 2em !important
 html.layout-tv body .je-more-info-modal .title { font-size:1.7em !important; margin:0 2em .8em 0 !important; }
 html.layout-tv body .je-more-info-modal .je-more-info-actions { margin-top:1em !important; }
 
-/* Request form: quality only; keep default server/folder values intact. */
-html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-server"]),
-html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-row:has(select[id$="-folder"]),
+/* Keep server and folder visible so the modal's native initial-focus
+ * selector can focus its first field. Preserve the native form layout. */
 html.layout-tv body .jellyseerr-advanced-options > h3 {
   display: none !important;
-}
-html.layout-tv body .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-quality"]) {
-  flex: 1 1 100% !important;
-  width: 100% !important;
-  max-width: none !important;
 }
 /* Restore a single page scroll surface for native spatial navigation. */
 html.layout-tv body .searchFields {
