@@ -2569,3 +2569,32 @@ html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:is
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* Header search: consistent contrast and a single focus treatment, including subpages. */
+html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButton {
+  background: #202020 !important;
+  color: #eee !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButton:is(:focus,:focus-visible) {
+  background: #fff !important;
+  color: #111 !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButton::before,
+html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButton::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButton .material-icons {
+  color: inherit !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
