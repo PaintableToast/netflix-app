@@ -2629,7 +2629,7 @@ html.layout-tv body #slides-container {
   left: 4.5vw !important;
   right: 4.5vw !important;
   width: 91vw !important;
-  height: 64vh !important;
+  height: 52vh !important;
   border-radius: 1.1em !important;
   overflow: hidden !important;
   isolation: isolate;
@@ -2749,8 +2749,56 @@ html.layout-tv body #slides-container .play-button:focus {
   box-shadow: none !important;
 }
 html.layout-tv body:has(#slides-container) #homePage .homeSectionsContainer {
-  margin-top: calc(64vh + 1.5em) !important;
+  margin-top: calc(52vh + 1.5em) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   html.layout-tv body #slides-container .slide { transition: none !important; }
+}
+
+/* MediaBar marquee layout uses spec-line, not info-container. */
+html.layout-tv body #slides-container.layout-marquee .spec-line {
+  position: absolute !important;
+  left: 3vw !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 2em !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  max-width: 70vw !important;
+  gap: .35em .65em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font: 600 .95em/1.4 Arial,sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: #eee !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
+}
+html.layout-tv body #slides-container.layout-marquee .spec-line > :is(.spec-item,.spec-cert) {
+  position: static !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  font: inherit !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+html.layout-tv body #slides-container.layout-marquee .spec-line > :is(.spec-rating,.spec-critics,.spec-divider) { display: none !important; }
+html.layout-tv body #slides-container.layout-marquee .spec-line > .spec-item:not(.spec-rating):not(.spec-critics)::after {
+  content: " ·";
+  margin-left: .55em;
+  color: #aaa;
+}
+html.layout-tv body #slides-container .ss-chrome { display: none !important; }
+html.layout-tv body #slides-container .play-button::before,
+html.layout-tv body #slides-container .play-button::after {
+  content: none !important;
+  display: none !important;
+}
+html.layout-tv body #slides-container .logo-container {
+  bottom: 4.6em !important;
+  width: 27vw !important;
+  height: 10vh !important;
 }
