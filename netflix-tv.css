@@ -2968,3 +2968,16 @@ html body #hunold-preview-loader {
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+/* Outrank the old TV :has(select[id$=...]) quality-only rules. */
+html.layout-tv body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-server"]),
+html.layout-tv body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group:has(select[id$="-folder"]) {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+html.layout-tv body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-row:has(select[id$="-server"]),
+html.layout-tv body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-row:has(select[id$="-folder"]) {
+  display: flex !important;
+  visibility: visible !important;
+}
