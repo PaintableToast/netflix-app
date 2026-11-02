@@ -2598,3 +2598,26 @@ html.layout-tv body .skinHeader.skinHeader .headerSearchButton.headerSearchButto
   opacity: 1 !important;
   -webkit-text-fill-color: currentColor !important;
 }
+
+/* Visual heading label; retain the existing refresh button and its action. */
+html.layout-tv body .jellyseerr-section > h2.sectionTitle {
+  font-size: 0 !important;
+  text-align: left !important;
+}
+html.layout-tv body .jellyseerr-section > h2.sectionTitle::before {
+  content: "Entdecken";
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+  vertical-align: middle;
+}
+html.layout-tv body .jellyseerr-section > h2.sectionTitle > .jellyseerr-refresh-btn {
+  font-size: 1.5rem !important;
+  margin-left: .5rem !important;
+  vertical-align: middle !important;
+}
+html.layout-tv body .jellyseerr-section > h2.sectionTitle .jellyseerr-refresh-icon {
+  font-size: 1em !important;
+}
