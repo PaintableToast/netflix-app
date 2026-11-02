@@ -2383,7 +2383,7 @@ html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card {
   flex-shrink: 0 !important;
   transition: width 220ms cubic-bezier(.22,1,.36,1) !important;
 }
-html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card:is(:hover,:focus-within) { width: 36vw !important; }
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card:focus-within { width: 36vw !important; }
 html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card .cardScalable {
   height: 20.2vw !important;
   aspect-ratio: auto !important;
@@ -2922,4 +2922,15 @@ html.layout-tv body:has(> .jellyseerr-season-modal) .mainAnimatedPages > * {
 html.layout-tv body > .jellyseerr-season-modal {
   position: fixed !important; inset: 0 !important;
   z-index: 999999 !important;
+}
+
+/* TV remote: pointer hover must not enlarge or animate movie cards.
+ * Native focus/focus-within rules remain responsible for remote selection. */
+html.layout-tv body .card:hover:not(:focus):not(:focus-within),
+html.layout-tv body .card:hover:not(:focus):not(:focus-within) :is(.cardBox,.cardScalable,.cardImageContainer) {
+  transform: none !important;
+  animation: none !important;
+}
+html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card:hover:not(:focus-within):not(:focus) {
+  width: 16.2vw !important;
 }
