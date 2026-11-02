@@ -2548,3 +2548,24 @@ html.layout-tv body .jellyseerr-season-item:focus-within,
 html.layout-tv body .jellyseerr-season-header-row:focus-within {
   background: #292929 !important; box-shadow: inset 0 0 0 2px #fff !important;
 }
+
+/* One focus indicator: mouse hover must not impersonate remote selection. */
+html.layout-tv body .jellyseerr-season-modal :is(.jellyseerr-season-item,.jellyseerr-season-header-row),
+html.layout-tv body .jellyseerr-season-modal :is(.jellyseerr-season-item,.jellyseerr-season-header-row):hover {
+  background: #1f1f1f !important;
+  border-color: #383838 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 120ms ease, border-color 120ms ease !important;
+}
+html.layout-tv body .jellyseerr-season-modal :is(.jellyseerr-season-item,.jellyseerr-season-header-row):focus-within {
+  background: #292929 !important;
+  border-color: #fff !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+html.layout-tv body .jellyseerr-season-modal input.jellyseerr-season-checkbox:is(:focus,:focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}
