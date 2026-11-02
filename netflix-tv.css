@@ -2743,7 +2743,7 @@ html.layout-tv body #slides-container .play-button:focus {
   box-shadow: none !important;
 }
 html.layout-tv body:has(#slides-container) #homePage .homeSectionsContainer {
-  margin-top: calc(52vh + 1.5em) !important;
+  margin-top: calc(52vh + 7.9em) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   html.layout-tv body #slides-container .slide { transition: none !important; }
@@ -3029,4 +3029,18 @@ html.layout-tv body #itemDetailPage #listChildrenCollapsible .card[data-type="Se
   background-repeat: no-repeat !important;
   background-position: left center !important;
   background-size: 1.2em 1.2em !important;
+}
+
+/* MediaBar is attached to body, outside the scrolling home rows. Hide its
+ * independent layer while a library card owns TV focus, preventing overlap
+ * as native spatial navigation scrolls the home view underneath it. */
+html.layout-tv body:has(#homePage .card:focus) #slides-container#slides-container,
+html.layout-tv body:has(#homePage .card:focus-within) #slides-container#slides-container {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html.layout-tv body:has(#homePage .card:focus) #slides-container#slides-container *,
+html.layout-tv body:has(#homePage .card:focus-within) #slides-container#slides-container * {
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
