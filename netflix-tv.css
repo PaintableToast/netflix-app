@@ -2928,3 +2928,34 @@ html.layout-tv body .card:hover:not(:focus):not(:focus-within) :is(.cardBox,.car
 html.layout-tv body .jellyseerr-section .emby-scroller .jellyseerr-card:hover:not(:focus-within):not(:focus) {
   width: 16.2vw !important;
 }
+
+/* Explicitly restore request fields, including over older quality-only CSS.
+ * Applies in desktop and TV layouts; removing an old rule alone is insufficient
+ * when another copy of that rule remains loaded. */
+html body .jellyseerr-season-modal .jellyseerr-advanced-options,
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  visibility: visible !important;
+}
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group {
+  flex: 1 1 16em !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+}
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group label,
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group select {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+html body .jellyseerr-season-modal .jellyseerr-advanced-options .jellyseerr-form-group select {
+  width: 100% !important;
+  max-width: 100% !important;
+}
