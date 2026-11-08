@@ -3056,3 +3056,76 @@ html.layout-tv body:has(#slides-container) .homeSectionsContainer {
   margin-top: 0 !important;
   padding-top: 1em !important;
 }
+
+/* Fire TV Silk uses a 960px CSS viewport on a 1080p display. */
+@media (max-width: 1100px) {
+  html.layout-tv .skinHeader,
+  html.layout-tv .headerTop {
+    font-size: 16px !important;
+    height: 5em !important;
+    min-height: 5em !important;
+  }
+  html.layout-tv .headerButton {
+    width: 2.5em !important;
+    height: 2.5em !important;
+    font-size: 16px !important;
+  }
+  html.layout-tv .headerUserButton {
+    top: 1em !important;
+    width: 2.25em !important;
+    height: 2.25em !important;
+  }
+  html.layout-tv .headerTabs {
+    top: .9em !important;
+    font-size: 16px !important;
+    max-width: calc(61.8vw - 6em) !important;
+  }
+  html.layout-tv .headerTabs .emby-tab-button {
+    font-size: 1em !important;
+    min-height: 2.5em !important;
+    padding: .4em .9em !important;
+  }
+  html.layout-tv .skinHeader:has(.sectionTabs:not(.hide)) .headerSearchButton {
+    left: calc(38.2vw - 3.1em) !important;
+    top: .9em !important;
+  }
+  html.layout-tv .headerBackButton {
+    left: calc(4.5vw + 2.75em) !important;
+    top: .9em !important;
+  }
+  html.layout-tv .headerHomeButton {
+    left: calc(4.5vw + 5.75em) !important;
+    top: .9em !important;
+  }
+  html.layout-tv .skinHeader:has(.sectionTabs.hide) .headerSearchButton,
+  html.layout-tv .skinHeader:not(:has(.sectionTabs:not(.hide))) .headerSearchButton {
+    left: calc(4.5vw + 8.75em) !important;
+    top: .9em !important;
+  }
+  html.layout-tv #itemDetailPage .mainDetailButtons .detailButton,
+  html.layout-tv #itemDetailPage .detailTrackSelect {
+    font-size: .875rem !important;
+    min-height: 2.5rem !important;
+    height: auto !important;
+  }
+
+  html.layout-tv .skinHeader::after {
+    top: 1em !important;
+    width: 1.3em !important;
+    height: 2.25em !important;
+  }
+  html.layout-tv .libraryPage:not(#videoOsdPage) {
+    padding-top: 4.8em !important;
+  }
+  html.layout-tv .absolutePageTabContent {
+    top: 4.8em !important;
+  }
+  html.layout-tv .homePage .verticalSection:has(.card[data-type="CollectionFolder"]) .card {
+    width: 28vw !important;
+    min-width: 28vw !important;
+    flex: 0 0 28vw !important;
+  }
+  html.layout-tv .homePage .verticalSection:has(.card[data-type="CollectionFolder"]) .card .cardScalable {
+    height: 15.75vw !important;
+  }
+}
